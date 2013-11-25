@@ -1,0 +1,11 @@
+table {
+  margin:1em auto;
+  border-collapse:collapse;
+  font-family:sans-serif;
+  font-size:90%
+}
+td {
+  width:3em;
+  height:3em;
+  text-align:center
+}

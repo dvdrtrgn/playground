@@ -1,0 +1,12 @@
+#playground { background:#eee; text-align:center; padding-top:50px; }
+.bar {
+	display: inline-block;
+	width: 20px;
+	margin-right: 3px;
+	background: #369; color:white;
+	border:4px outset #69c;
+	border-bottom:1px solid #000;
+	border-radius:4px 4px 0 0;
+	vertical-align:bottom;
+	font-family:sans-serif; font-size:10px
+}

@@ -1,0 +1,109 @@
+html,body {
+    font-family: sans-serif;
+    font-size: 12px;
+    margin: 0;
+    max-height: 100%;
+    min-height: 100%;
+    overflow: hidden;
+    padding: 0;
+}
+body > section {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 100%;
+    left: 0;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+body > section > header {
+    -moz-box-sizing: border-box;
+    background: #333;
+    border: 1px solid #000;
+    box-sizing: border-box;
+    color: #ccc;
+    height: 24px;
+    left: 0;
+    line-height: 24px;
+    padding: 0 0.5em;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    border-width: 1px 0;
+}
+body > section > header > h2 {
+    display: inline-block;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+}
+body > section > header span {
+    font-size: 80%;
+    font-weight: normal;
+}
+body > section > header > .note {
+    font-size: 90%;
+    position: absolute;
+    right: 0.5em;
+    text-align: right;
+}
+#playground-wrap {
+    border-top: 24px;
+    height: 50%;
+    overflow: hidden;
+    padding: 0;
+}
+#data,#code,#css {
+    top: 50%;
+    width: 50%
+}
+#data,#css {
+    height: 25%
+}
+#css {
+    top: 75%;
+    overflow: visible;
+}
+#code {
+    left: 50%;
+    height: 50%;
+}
+#data header,#css header {
+    border-right: 1px solid #000;
+}
+#css header {
+    margin-top: -1px;
+    height: 25px;
+    line-height: 25px
+}
+#playground-wrap header {
+    border-top: 0;
+}
+#playground,body > section > .editor {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 24px;
+}
+.ace_print_margin {
+    display: none ! important
+}
+div.ace-cobalt div.ace_scroller {
+    background: #111;
+}
+div.ace-cobalt.ace_focus div.ace_scroller {
+    background: #002240;
+}
+div.ace-cobalt div.ace_marker-layer div.ace_selection {
+    background: rgba(179,151,117,0.4);
+}
+div.ace-cobalt.ace_focus div.ace_marker-layer div.ace_selection {
+    background: rgba(179,101,57,0.75);
+}
+#overview {
+    display: none;
+}

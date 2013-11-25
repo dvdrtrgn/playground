@@ -1,0 +1,7 @@
+#playground { text-align:center; padding-top:50px; }
+.bar {
+	display:inline-block;
+	width: 3px; border:1px outset #69f;
+	background: #369; border-bottom:1px solid #000;
+}
+.bar:hover { background:#69c }
