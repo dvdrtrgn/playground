@@ -1,4 +1,5 @@
-html,body {
+html,
+body {
     font-family: sans-serif;
     font-size: 12px;
     margin: 0;
@@ -22,6 +23,7 @@ body > section {
 body > section > header {
     -moz-box-sizing: border-box;
     background: #333;
+    border-width: 1px 0;
     border: 1px solid #000;
     box-sizing: border-box;
     color: #ccc;
@@ -32,7 +34,6 @@ body > section > header {
     position: absolute;
     top: 0;
     width: 100%;
-    border-width: 1px 0;
 }
 body > section > header > h2 {
     display: inline-block;
@@ -56,33 +57,38 @@ body > section > header > .note {
     overflow: hidden;
     padding: 0;
 }
-#data,#code,#css {
+#data,
+#code,
+#css {
     top: 50%;
     width: 50%
 }
-#data,#css {
+#data,
+#css {
     height: 25%
 }
 #css {
-    top: 75%;
     overflow: visible;
+    top: 75%;
 }
 #code {
-    left: 50%;
     height: 50%;
+    left: 50%;
 }
-#data header,#css header {
+#data header,
+#css header {
     border-right: 1px solid #000;
 }
 #css header {
-    margin-top: -1px;
     height: 25px;
-    line-height: 25px
+    line-height: 25px;
+    margin-top: -1px;
 }
 #playground-wrap header {
     border-top: 0;
 }
-#playground,body > section > .editor {
+#playground,
+body > section > .editor {
     bottom: 0;
     left: 0;
     position: absolute;
@@ -90,7 +96,7 @@ body > section > header > .note {
     top: 24px;
 }
 .ace_print_margin {
-    display: none ! important
+    display: none !important
 }
 div.ace-cobalt div.ace_scroller {
     background: #111;
