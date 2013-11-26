@@ -1,19 +1,23 @@
-var svg, circs, items;
-svg = createSVG();
-items = svg.selectAll("g").data($data).enter().append("g");
+var svg = createSVG(),
+    items;
 
-console.debug(99, items);
-
-items.attr("transform", function (d, i) {
+items = svg
+.selectAll("g")
+.data($data)
+.enter()
+.append("g")
+.attr("transform", function (d, i) {
     return ['translate(', 33 * i, ',', 50,')'].join('');
-})
+});
 
-circs = items.append('circle')
+items.append('circle')
 .attr("r", function (d) {
     return d / 9;
 });
 
 items.append('text').text(String);
+
+console.debug('items', items);
 
 function createSVG() {
     var svg = d3.select('#playground').selectAll('svg').data([0]);
