@@ -1,11 +1,23 @@
-function boxMuller(width){
-  // http://en.wikipedia.org/wiki/Box-Muller_transform
-  return width * Math.sqrt(-2*Math.log(Math.random())) * Math.cos(Math.PI*2*Math.random());
+// http://en.wikipedia.org/wiki/Box-Muller_transform
+
+function boxMuller(width) {
+    return width * Math.sqrt(-2 * Math.log(Math.random())) * Math.cos(Math.PI * 2 * Math.random());
 }
-var d=[],histo={};
-for (var i=15000;i--;){
-  var n = Math.round(boxMuller(30));
-  histo[n] = (histo[n]||0) + 1;
+
+var d = [],
+    histo = {};
+
+for (var i = 15000; i--;) {
+    var n = Math.round(boxMuller(30));
+    histo[n] = (histo[n] || 0) + 1;
 }
-for (var n in histo) d.push({n:n*1, ct:histo[n]});
-d.sort(function(a,b){ a=a.n; b=b.n; return a<b?-1:a>b?1:0 });
+for (var n in histo) d.push({
+    n: n * 1,
+    ct: histo[n]
+});
+
+d.sort(function (a, b) {
+    a = a.n;
+    b = b.n;
+    return a < b ? - 1 : a > b ? 1 : 0
+});

@@ -1,6 +1,12 @@
 [
-  {title:"Good Stock",values:[10,20,30,40,50]},
-  {title:"Bad Stock",values:[40,20,1,35,12]},
-  {title:"Bostock",values:[1,1,2,3,5,8,13,21,34,55,89]}
-]
-
+    {
+    title: "Good Stock",
+    values: [10, 20, 30, 40, 50],
+    },{
+    title: "Bad Stock",
+    values: [40, 20, 1, 35, 12],
+    },{
+    title: "Bostock",
+    values: [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89],
+    },
+];
