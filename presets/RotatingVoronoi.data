@@ -1,0 +1,26 @@
+[
+    [0,      0, 120, 96, -0.001],          //
+    [0,      0,  30, 10,  0.03],           //
+    [0,      0,  60,  3, -0.05],           //
+    [0,      0,  15,  4, -0.02],           //
+    [0,      0,   0,  1, -0.02],           //
+
+    [240, -120,  80,  4, -0.02],           //
+    [240, -120,   0,  1, -0.02],           //
+
+    [280, +120,  40,  8,  0.02],           //
+    [280, +120,  20,  8, -0.02],           //
+    [280, +120,   0,  1,  0.02],           //
+];
+
+/*
+
+Mario Klingemann has made some beautiful Voronoi diagrams.
+This is my attempt to recreate them using D3.
+To achieve the curved cells, each side of the Voronoi polygon is subdivided into three equal-length segments and then joined using the "basis-closed" line interpolator.
+There are some discontinuities in the animation when the sides of a polygon approach zero which could likely be avoided by adding a minimum-length threshold to the subdivision.
+
+If you’d like to see other instances of this pattern, Mario describes the algorithm on Flickr.
+http://www.flickr.com/photos/quasimondo/8254540763/
+
+*/
