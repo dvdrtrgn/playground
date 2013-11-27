@@ -1,3 +1,12 @@
-circle { stroke-width:1px; vector-effect:non-scaling-stroke }
-circle.m { fill:#def; stroke:#369 }
-circle.f { fill:#fee; stroke:#e99 }
+circle {
+    stroke-width: 1px;
+    vector-effect: non-scaling-stroke
+}
+circle.m {
+    fill: #def;
+    stroke: #369
+}
+circle.f {
+    fill: #fee;
+    stroke: #e99
+}

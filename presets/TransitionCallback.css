@@ -1,9 +1,11 @@
 #playground div {
-  background:green; display:inline-block;
-  margin:1em; padding:0.2em;
-  text-align:center;
-  overflow:hidden;
+    background: green;
+    display: inline-block;
+    margin: 1em;
+    padding: 0.2em;
+    text-align: center;
+    overflow: hidden;
 }
-.animating { 
-  opacity:0.5
+.animating {
+    opacity: 0.5
 }
