@@ -6,11 +6,11 @@ Body text -- `mono text`
 
 ### UL
 * [spot link](http://site/) `(http://site/)`
-* [named link][site] `[site]`
+* [API-Reference][site]
 
 #### OL
 0. 0
 0. 0
 
-[site]: http://site/
+[site]: https://github.com/mbostock/d3/wiki/API-Reference
 
