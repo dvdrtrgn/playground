@@ -285,6 +285,7 @@
     // d3.js helpers
     // Create a function that returns a particular property of its parameter.
     // If that property is a function, invoke it (and pass optional params).
+
     ƒ = function (name) {
         var v, params;
 
@@ -297,6 +298,11 @@
 
     I = function (d) {
         return d; // Return the first argument passed in
+    };
+
+    W.createSVG = function () {
+        var svg = d3.select('#playground').selectAll('svg').data([0]);
+        return svg.enter().append('svg').attr('viewBox', '0 0 100 100');
     };
 
 }(window))
