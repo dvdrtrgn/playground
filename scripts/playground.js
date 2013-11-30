@@ -75,7 +75,7 @@
         $editors.data.getSession().on('change', unlessErrorsIn('data-editor', updateData, 250));
         $editors.code.getSession().on('change', unlessErrorsIn('code-editor', updateCode, 350));
         // CSS editor does not accept SVG CSS as valid, so update on every change
-        $editors.css.getSession().on('change', runLater(updateCSS, 350));
+        $editors.css.getSession().on('change', Util.runLater(updateCSS, 350));
     }
 
     // Load preset names from OPTS.presetsURI, load the default/hash, and setup load handlers
@@ -152,7 +152,7 @@
     function bindUI() {
         D.getElementById('runcode').addEventListener('change', toggleLiveUpdates, false);
         D.getElementById('swizzle').addEventListener('click', swizzleData, false);
-        W.addEventListener('resize', runLater(resizeWindow, 250), false);
+        W.addEventListener('resize', Util.runLater(resizeWindow, 250), false);
     }
 
     function toggleLiveUpdates() {
@@ -267,17 +267,6 @@
             timer = W.setTimeout(function () {
                 if (!el.querySelector('div_gutter-cell_error')) callback();
             }, delay); // DANGER: workers-css.js and workers-javascript.js must have timeouts below this
-        }
-    }
-
-    // Runs the callback unless interrupted by another call within the delay
-
-    function runLater(callback, delay) {
-        var timer;
-
-        return function () {
-            W.clearTimeout(timer);
-            timer = W.setTimeout(callback, delay);
         }
     }
 
