@@ -3,10 +3,11 @@
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 var Util = (function (W) { // IIFE
     var name = 'Util',
-        self, C, Df;
+        self, C, D, Df;
 
     self = {};
     C = W.console;
+    D = W.document;
 
     Df = { // DEFAULTS
         abc: true,
@@ -48,8 +49,22 @@ var Util = (function (W) { // IIFE
         };
     }
 
-    function _binder() {}
+    function _createSVG (view) {
+        view = view || '0 0 100 100';
 
+        var svg = d3.select('#playground').selectAll('svg').data([0]);
+
+        return svg.enter().append('svg').attr('viewBox', view);
+    };
+
+    function _createSVG2(where) {
+        where = where || '#playground';
+
+        var s = D.createElement('svg')
+        D.body.appendChild(s);
+        s.setAttribute('viewBox', '0 0 100 100');
+        return [s];
+    }
 
     /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
@@ -58,12 +73,12 @@ var Util = (function (W) { // IIFE
             return null;
         }
         Df.inits();
-        _binder();
         return self;
     }
 
     self.init = _init;
     self.runLater = _runLater;
+    self.createSVG = _createSVG;
 
     return self.init();
 

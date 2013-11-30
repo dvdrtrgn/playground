@@ -1,4 +1,5 @@
-var svg = createSVG();
+// Only create the SVG once (changing $data causes all code to be re-run)
+var svg = Util.createSVG('150 10 30 35');
 
 // Associate each circle with a unique ID so that exit()
 // and updates properly affect the correct element.
@@ -21,14 +22,6 @@ circle.transition().duration(300) //
 circle.exit().transition().duration(300) //
 .attr('opacity', 0) //
 .remove();
-
-// Only create the SVG once (changing $data causes all code to be re-run)
-
-function createSVG() {
-    var svg = d3.select('#playground').selectAll('svg').data([0]);
-    svg.enter().append('svg').attr('viewBox', '150 10 30 35');
-    return svg;
-}
 
 function bmi(datum) {
     return datum.weight / Math.pow(datum.height / 100, 2);

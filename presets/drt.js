@@ -1,4 +1,4 @@
-var svg = createSVG(),
+var svg = Util.createSVG(),
     items;
 
 items = svg .selectAll("g").data($data).enter() //

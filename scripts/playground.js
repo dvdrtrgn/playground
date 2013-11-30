@@ -289,10 +289,5 @@
         return d; // Return the first argument passed in
     };
 
-    W.createSVG = function () {
-        var svg = d3.select('#playground').selectAll('svg').data([0]);
-        return svg.enter().append('svg').attr('viewBox', '0 0 100 100');
-    };
-
 }(window))
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
