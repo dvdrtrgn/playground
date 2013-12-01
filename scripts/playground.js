@@ -34,53 +34,25 @@
         }
     };
 
-    // Fills out $editors with ACE editors
+    function unlessErrorsIn(id, callback, delay) {
+        var el, timer;
 
-    function setupEditors() {
-        var jsMode, cssMode, name, ed, session;
+        el = D.getElementById(id);
 
-        jsMode = require('ace/mode/javascript').Mode;
-        cssMode = require('ace/mode/css').Mode;
+        return function () {
+            W.clearTimeout(timer);
 
-        for (name in $editors) {
-            if ($editors.hasOwnProperty(name)) {
-                ed = $editors[name] = ace.edit(name + '-editor');
-                ed.setTheme('ace/theme/' + OPTS.theme);
-
-                session = ed.getSession();
-                session.setTabSize(OPTS.tabSize);
-                session.setUseWrapMode(OPTS.useWrapMode);
-                session.setMode(name === 'css' ? new cssMode() : new jsMode());
-            }
-        }
-        $editors.data.getSession().on('change', unlessErrorsIn('data-editor', updateData, 250));
-        $editors.code.getSession().on('change', unlessErrorsIn('code-editor', updateCode, 350));
-        // CSS editor does not accept SVG CSS as valid, so update on every change
-        $editors.css.getSession().on('change', Util.runLater(updateCSS, 350));
+            timer = W.setTimeout(function () {
+                if (!el.querySelector('div_gutter-cell_error')) {
+                    callback();
+                }
+            }, delay); // DANGER: workers-css.js and workers-javascript.js must have timeouts below this
+        };
     }
 
-    // Load preset names from OPTS.presetsURI, load the default/hash, and setup load handlers
-
-    function setupPresets() {
-        var defaultName;
-
-        defaultName = (OPTS.presetInHash && location.hash)
-        ? unescape(location.hash.slice(1)) : OPTS.defaultPreset;
-
-        presets = D.getElementById('presets');
-        presets.addEventListener('change', usePreset, false);
-
-        d3.text(OPTS.presetsURI, function (html) {
-            var names, i, sel;
-
-            names = html.match(/[^<>]+(?=\.js<\/a>)/g);
-
-            for (i = 0; i < names.length; ++i) {
-                sel = (names[i] == defaultName);
-                presets.appendChild(new Option(names[i], names[i], sel, sel));
-            }
-            usePreset(defaultName);
-        });
+    function resetPlayground() {
+        //C.debug('Reset Playground');
+        $playground.innerHTML = '';
     }
 
     function usePreset(presetName) {
@@ -107,9 +79,27 @@
         });
     }
 
-    function resetPlayground() {
-        //C.debug('Reset Playground');
-        $playground.innerHTML = '';
+    // Load preset names from OPTS.presetsURI, load the default/hash, and setup load handlers
+
+    function setupPresets() {
+        var defaultName;
+
+        defaultName = (OPTS.presetInHash && location.hash) ? unescape(location.hash.slice(1)) : OPTS.defaultPreset;
+
+        presets = D.getElementById('presets');
+        presets.addEventListener('change', usePreset, false);
+
+        d3.text(OPTS.presetsURI, function (html) {
+            var names, i, sel;
+
+            names = html.match(/[^<>]+(?=\.js<\/a>)/g);
+
+            for (i = 0; i < names.length; ++i) {
+                sel = (names[i] === defaultName);
+                presets.appendChild(new Option(names[i], names[i], sel, sel));
+            }
+            usePreset(defaultName);
+        });
     }
 
     // Command-L on OS X conflicts with focusing address bar
@@ -129,17 +119,31 @@
         }
     }
 
-    function bindUI() {
-        D.getElementById('runcode').addEventListener('change', toggleLiveUpdates, false);
-        D.getElementById('swizzle').addEventListener('click', swizzleData, false);
-        W.addEventListener('resize', Util.runLater(resizeWindow, 250), false);
+    // Manual invocation; intended to be hooked up to a button in the UI
+
+    function runCode() {
+        try {
+            eval($editors.code.getSession().getValue());
+        } catch (err) {
+            C.log('Updating code: ' + err.message);
+        }
     }
 
-    function toggleLiveUpdates() {
-        OPTS.runOnChange = D.getElementById('runcode').checked;
+    // Execute the code (maybe); changeSource is either 'data' or 'css' or 'resize'
 
-        if (OPTS.runOnChange) {
-            updateCode('code');
+    function updateCode(changeSource) {
+        //C.debug('Update Code');
+        if (!OPTS.runOnChange) {
+            return;
+        }
+        if (typeof changeSource !== 'string') {
+            changeSource = 'code';
+        }
+        if (OPTS.runOnChangeOf[changeSource]) {
+            if (OPTS.resetPGOnChangeOf[changeSource]) {
+                resetPlayground();
+            }
+            runCode();
         }
     }
 
@@ -189,6 +193,20 @@
         updateCode('resize');
     }
 
+    function toggleLiveUpdates() {
+        OPTS.runOnChange = D.getElementById('runcode').checked;
+
+        if (OPTS.runOnChange) {
+            updateCode('code');
+        }
+    }
+
+    function bindUI() {
+        D.getElementById('runcode').addEventListener('change', toggleLiveUpdates, false);
+        D.getElementById('swizzle').addEventListener('click', swizzleData, false);
+        W.addEventListener('resize', Util.runLater(resizeWindow, 250), false);
+    }
+
     function updateData() {
         //C.debug('Update Data');
         try {
@@ -209,45 +227,29 @@
         updateCode('css');
     }
 
-    // Execute the code (maybe); changeSource is either 'data' or 'css' or 'resize'
+    // Fills out $editors with ACE editors
 
-    function updateCode(changeSource) {
-        //C.debug('Update Code');
-        if (!OPTS.runOnChange) {
-            return;
-        }
-        if (typeof changeSource != 'string') {
-            changeSource = 'code';
-        }
-        if (OPTS.runOnChangeOf[changeSource]) {
-            if (OPTS.resetPGOnChangeOf[changeSource]) {
-                resetPlayground();
+    function setupEditors() {
+        var jsMode, cssMode, name, ed, session;
+
+        jsMode = require('ace/mode/javascript').Mode;
+        cssMode = require('ace/mode/css').Mode;
+
+        for (name in $editors) {
+            if ($editors.hasOwnProperty(name)) {
+                ed = $editors[name] = ace.edit(name + '-editor');
+                ed.setTheme('ace/theme/' + OPTS.theme);
+
+                session = ed.getSession();
+                session.setTabSize(OPTS.tabSize);
+                session.setUseWrapMode(OPTS.useWrapMode);
+                session.setMode(name === 'css' ? new cssMode() : new jsMode());
             }
-            runCode();
         }
-    }
-
-    // Manual invocation; intended to be hooked up to a button in the UI
-
-    function runCode() {
-        try {
-            eval($editors.code.getSession().getValue());
-        } catch (err) {
-            C.log('Updating code: ' + err.message);
-        }
-    }
-
-    function unlessErrorsIn(id, callback, delay) {
-        var el, timer;
-
-        el = D.getElementById(id);
-
-        return function () {
-            W.clearTimeout(timer);
-            timer = W.setTimeout(function () {
-                if (!el.querySelector('div_gutter-cell_error')) callback();
-            }, delay); // DANGER: workers-css.js and workers-javascript.js must have timeouts below this
-        }
+        $editors.data.getSession().on('change', unlessErrorsIn('data-editor', updateData, 250));
+        $editors.code.getSession().on('change', unlessErrorsIn('code-editor', updateCode, 350));
+        // CSS editor does not accept SVG CSS as valid, so update on every change
+        $editors.css.getSession().on('change', Util.runLater(updateCSS, 350));
     }
 
     W.addEventListener('load', function () {
