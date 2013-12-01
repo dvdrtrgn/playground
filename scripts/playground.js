@@ -2,7 +2,7 @@
 /*globals $, Global, Main, window */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 (function (W) {
-    var C, D, I, OPTS, ƒ;
+    var C, D, OPTS;
     C = W.console;
     D = W.document;
 
@@ -19,22 +19,18 @@
         runOnChange: true,
         // Execute code during typing (all fields)?
         runOnChangeOf: {
+            // Execute due to change of...
             code: true,
-            // Execute code when it changes?
             data: true,
-            // Execute code when data changes?
             css: false,
-            // Execute code when CSS changes?
-            resize: true // Execute code when window resizes?
+            resize: true
         },
         resetPGOnChangeOf: {
+            // Erase playground before due to change of...
             code: true,
-            // Erase playground before running code due to change of code?
             data: false,
-            // Erase playground before running code due to change of data?
             css: false,
-            // Erase playground before running code due to change of CSS?
-            resize: true // Erase playground before running code due to window resize?
+            resize: true
         }
     };
 
@@ -269,25 +265,6 @@
             }, delay); // DANGER: workers-css.js and workers-javascript.js must have timeouts below this
         }
     }
-
-    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-    // d3.js helpers
-    // Create a function that returns a particular property of its parameter.
-    // If that property is a function, invoke it (and pass optional params).
-
-    ƒ = function (name) {
-        var v, params;
-
-        params = Array.prototype.slice.call(arguments, 1);
-
-        return function (o) {
-            return (typeof(v = o[name]) === 'function' ? v.apply(o, params) : v);
-        };
-    };
-
-    I = function (d) {
-        return d; // Return the first argument passed in
-    };
 
 }(window))
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */

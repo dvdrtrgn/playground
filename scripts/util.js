@@ -67,6 +67,25 @@ var Util = (function (W) { // IIFE
     }
 
     /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+    // d3.js helpers
+    // Create a function that returns a particular property of its parameter.
+    // If that property is a function, invoke it (and pass optional params).
+
+    _ƒ = function (name) {
+        var v, params;
+
+        params = Array.prototype.slice.call(arguments, 1);
+
+        return function (o) {
+            return (typeof(v = o[name]) === 'function' ? v.apply(o, params) : v);
+        };
+    };
+
+    _I = function (d) {
+        return d; // Return the first argument passed in
+    };
+
+    /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
     function _init() {
         if (self.inited(true)) {
@@ -79,6 +98,8 @@ var Util = (function (W) { // IIFE
     self.init = _init;
     self.runLater = _runLater;
     self.createSVG = _createSVG;
+    W.ƒ = _ƒ;
+    W.I = _I;
 
     return self.init();
 
