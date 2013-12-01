@@ -138,11 +138,21 @@
         }
     }
 
-    function toggleLiveUpdates() {
-        OPTS.runOnChange = D.getElementById('runcode').checked;
+    // Execute the code (maybe); changeSource is either 'data' or 'css' or 'resize'
 
-        if (OPTS.runOnChange) {
-            updateCode('code');
+    function updateCode(changeSource) {
+        //C.debug('Update Code');
+        if (!OPTS.runOnChange) {
+            return;
+        }
+        if (typeof changeSource !== 'string') {
+            changeSource = 'code';
+        }
+        if (OPTS.runOnChangeOf[changeSource]) {
+            if (OPTS.resetPGOnChangeOf[changeSource]) {
+                resetPlayground();
+            }
+            runCode();
         }
     }
 
@@ -192,6 +202,14 @@
         updateCode('resize');
     }
 
+    function toggleLiveUpdates() {
+        OPTS.runOnChange = D.getElementById('runcode').checked;
+
+        if (OPTS.runOnChange) {
+            updateCode('code');
+        }
+    }
+
     function bindUI() {
         D.getElementById('runcode').addEventListener('change', toggleLiveUpdates, false);
         D.getElementById('swizzle').addEventListener('click', swizzleData, false);
@@ -218,23 +236,6 @@
         updateCode('css');
     }
 
-    // Execute the code (maybe); changeSource is either 'data' or 'css' or 'resize'
-
-    function updateCode(changeSource) {
-        //C.debug('Update Code');
-        if (!OPTS.runOnChange) {
-            return;
-        }
-        if (typeof changeSource != 'string') {
-            changeSource = 'code';
-        }
-        if (OPTS.runOnChangeOf[changeSource]) {
-            if (OPTS.resetPGOnChangeOf[changeSource]) {
-                resetPlayground();
-            }
-            runCode();
-        }
-    }
 
 
     function unlessErrorsIn(id, callback, delay) {
