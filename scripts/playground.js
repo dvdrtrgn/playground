@@ -128,10 +128,14 @@
         }
     }
 
-    function bindUI() {
-        D.getElementById('runcode').addEventListener('change', toggleLiveUpdates, false);
-        D.getElementById('swizzle').addEventListener('click', swizzleData, false);
-        W.addEventListener('resize', Util.runLater(resizeWindow, 250), false);
+    // Manual invocation; intended to be hooked up to a button in the UI
+
+    function runCode() {
+        try {
+            eval($editors.code.getSession().getValue());
+        } catch (err) {
+            C.log('Updating code: ' + err.message);
+        }
     }
 
     function toggleLiveUpdates() {
@@ -188,6 +192,12 @@
         updateCode('resize');
     }
 
+    function bindUI() {
+        D.getElementById('runcode').addEventListener('change', toggleLiveUpdates, false);
+        D.getElementById('swizzle').addEventListener('click', swizzleData, false);
+        W.addEventListener('resize', Util.runLater(resizeWindow, 250), false);
+    }
+
     function updateData() {
         //C.debug('Update Data');
         try {
@@ -226,15 +236,6 @@
         }
     }
 
-    // Manual invocation; intended to be hooked up to a button in the UI
-
-    function runCode() {
-        try {
-            eval($editors.code.getSession().getValue());
-        } catch (err) {
-            C.log('Updating code: ' + err.message);
-        }
-    }
 
     function unlessErrorsIn(id, callback, delay) {
         var el, timer;
