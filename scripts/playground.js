@@ -1,5 +1,5 @@
 /*jslint es5:true, white:false */
-/*globals ace, d3, require, window */
+/*globals Util, $data:true, ace, d3, require, window */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 (function (W) {
     var C, D, OPTS, $css, $playground, $editors, presets;
@@ -86,7 +86,7 @@
     function usePreset(presetName) {
         var path;
 
-        if (typeof presetName != 'string') {
+        if (typeof presetName !== 'string') {
             presetName = presets.value;
         }
         if (OPTS.presetInHash) {
@@ -154,7 +154,7 @@
         for (i = a.length; i--;) {
             v = a[i];
 
-            if (typeof v == 'number') {
+            if (typeof v === 'number') {
                 a[i] = swizzleData.number(v);
             } else if (v instanceof Array) {
                 swizzleData.array(v);
@@ -264,5 +264,6 @@
         bindUI();
     }, false);
 
-}(window))
+}(window));
+
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
