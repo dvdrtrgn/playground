@@ -1,6 +1,9 @@
 # MARKDOWN
 Body text -- `mono text`
 
+* [Swipeage / Moddage from](http://phrogz.net/js/d3-playground/)
+* [Doc objs](http://objjob.phrogz.net/d3/hierarchy)
+
 ## PRE
     $ do `it`
 
