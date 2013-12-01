@@ -59,28 +59,9 @@
         $editors.css.getSession().on('change', Util.runLater(updateCSS, 350));
     }
 
-    // Load preset names from OPTS.presetsURI, load the default/hash, and setup load handlers
-
-    function setupPresets() {
-        var defaultName;
-
-        defaultName = (OPTS.presetInHash && location.hash)
-        ? unescape(location.hash.slice(1)) : OPTS.defaultPreset;
-
-        presets = D.getElementById('presets');
-        presets.addEventListener('change', usePreset, false);
-
-        d3.text(OPTS.presetsURI, function (html) {
-            var names, i, sel;
-
-            names = html.match(/[^<>]+(?=\.js<\/a>)/g);
-
-            for (i = 0; i < names.length; ++i) {
-                sel = (names[i] == defaultName);
-                presets.appendChild(new Option(names[i], names[i], sel, sel));
-            }
-            usePreset(defaultName);
-        });
+    function resetPlayground() {
+        //C.debug('Reset Playground');
+        $playground.innerHTML = '';
     }
 
     function usePreset(presetName) {
@@ -107,9 +88,27 @@
         });
     }
 
-    function resetPlayground() {
-        //C.debug('Reset Playground');
-        $playground.innerHTML = '';
+    // Load preset names from OPTS.presetsURI, load the default/hash, and setup load handlers
+
+    function setupPresets() {
+        var defaultName;
+
+        defaultName = (OPTS.presetInHash && location.hash) ? unescape(location.hash.slice(1)) : OPTS.defaultPreset;
+
+        presets = D.getElementById('presets');
+        presets.addEventListener('change', usePreset, false);
+
+        d3.text(OPTS.presetsURI, function (html) {
+            var names, i, sel;
+
+            names = html.match(/[^<>]+(?=\.js<\/a>)/g);
+
+            for (i = 0; i < names.length; ++i) {
+                sel = (names[i] === defaultName);
+                presets.appendChild(new Option(names[i], names[i], sel, sel));
+            }
+            usePreset(defaultName);
+        });
     }
 
     // Command-L on OS X conflicts with focusing address bar
