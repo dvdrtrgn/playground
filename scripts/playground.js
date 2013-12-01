@@ -43,16 +43,15 @@
         cssMode = require('ace/mode/css').Mode;
 
         for (name in $editors) {
-            if (!$editors.hasOwnProperty(name)) {
-                continue;
-            }
-            ed = $editors[name] = ace.edit(name + '-editor');
-            ed.setTheme('ace/theme/' + OPTS.theme);
+            if ($editors.hasOwnProperty(name)) {
+                ed = $editors[name] = ace.edit(name + '-editor');
+                ed.setTheme('ace/theme/' + OPTS.theme);
 
-            session = ed.getSession();
-            session.setTabSize(OPTS.tabSize);
-            session.setUseWrapMode(OPTS.useWrapMode);
-            session.setMode(name == 'css' ? new cssMode : new jsMode);
+                session = ed.getSession();
+                session.setTabSize(OPTS.tabSize);
+                session.setUseWrapMode(OPTS.useWrapMode);
+                session.setMode(name === 'css' ? new cssMode() : new jsMode());
+            }
         }
         $editors.data.getSession().on('change', unlessErrorsIn('data-editor', updateData, 250));
         $editors.code.getSession().on('change', unlessErrorsIn('code-editor', updateCode, 350));
@@ -120,14 +119,13 @@
         var name, cmd, gtl;
 
         for (name in $editors) {
-            if (!$editors.hasOwnProperty(name)) {
-                continue;
+            if ($editors.hasOwnProperty(name)) {
+                cmd = $editors[name].commands;
+                gtl = cmd.commands.gotoline;
+                gtl.bindKey = cmd.commands.centerselection.bindKey;
+                cmd.removeCommand('centerselection');
+                cmd.addCommand(gtl);
             }
-            cmd = $editors[name].commands;
-            gtl = cmd.commands.gotoline;
-            gtl.bindKey = cmd.commands.centerselection.bindKey;
-            cmd.removeCommand('centerselection');
-            cmd.addCommand(gtl);
         }
     }
 
@@ -172,17 +170,16 @@
         var k, v;
 
         for (k in o) {
-            if (!o.hasOwnProperty(k)) {
-                continue;
-            }
-            v = o[k];
+            if (o.hasOwnProperty(k)) {
+                v = o[k];
 
-            if (typeof v == 'number' && k != 'id') {
-                o[k] = swizzleData.number(v);
-            } else if (v instanceof Array) {
-                swizzleData.array(v);
-            } else if (v instanceof Object) {
-                swizzleData.object(v);
+                if (typeof v === 'number' && k !== 'id') {
+                    o[k] = swizzleData.number(v);
+                } else if (v instanceof Array) {
+                    swizzleData.array(v);
+                } else if (v instanceof Object) {
+                    swizzleData.object(v);
+                }
             }
         }
     };
@@ -247,7 +244,6 @@
 
         return function () {
             W.clearTimeout(timer);
-
             timer = W.setTimeout(function () {
                 if (!el.querySelector('div_gutter-cell_error')) callback();
             }, delay); // DANGER: workers-css.js and workers-javascript.js must have timeouts below this
