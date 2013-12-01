@@ -146,44 +146,46 @@
     }
 
     function swizzleData() {
-        swizzleArray($data);
+        swizzleData.array($data);
         updateCode('data');
-
-        function swizzleArray(a) {
-            var i, v;
-
-            for (i = a.length; i--;) {
-                v = a[i];
-
-                if (typeof v == 'number') {
-                    a[i] = swizzleNumber(v);
-                }
-                else if (v instanceof Array) swizzleArray(v);
-                else if (v instanceof Object) swizzleObject(v);
-            }
-        }
-
-        function swizzleNumber(n) {
-            return n += (Math.random() - 0.5) * n / 5;
-        }
-
-        function swizzleObject(o) {
-            var k, v;
-
-            for (k in o) {
-                if (!o.hasOwnProperty(k)) {
-                    continue;
-                }
-                v = o[k];
-
-                if (typeof v == 'number' && k != 'id') {
-                    o[k] = swizzleNumber(v);
-                }
-                else if (v instanceof Array) swizzleArray(v);
-                else if (v instanceof Object) swizzleObject(v);
-            }
-        }
     }
+
+    swizzleData.array = function (a) {
+        var i, v;
+
+        for (i = a.length; i--;) {
+            v = a[i];
+
+            if (typeof v == 'number') {
+                a[i] = swizzleData.number(v);
+            } else if (v instanceof Array) {
+                swizzleData.array(v);
+            } else if (v instanceof Object) {
+                swizzleData.object(v);
+            }
+        }
+    };
+    swizzleData.number = function (n) {
+        return (n += (Math.random() - 0.5) * n / 5);
+    };
+    swizzleData.object = function (o) {
+        var k, v;
+
+        for (k in o) {
+            if (!o.hasOwnProperty(k)) {
+                continue;
+            }
+            v = o[k];
+
+            if (typeof v == 'number' && k != 'id') {
+                o[k] = swizzleData.number(v);
+            } else if (v instanceof Array) {
+                swizzleData.array(v);
+            } else if (v instanceof Object) {
+                swizzleData.object(v);
+            }
+        }
+    };
 
     function resizeWindow() {
         //C.debug('Resize Window');
