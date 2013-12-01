@@ -1,8 +1,8 @@
 /*jslint es5:true, white:false */
-/*globals $, Global, Main, window */
+/*globals ace, d3, require, window */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 (function (W) {
-    var C, D, OPTS;
+    var C, D, OPTS, $css, $playground, $editors, presets;
     C = W.console;
     D = W.document;
 
@@ -34,20 +34,6 @@
         }
     };
 
-    W.addEventListener('load', function () {
-        $playground = D.querySelector('#playground');
-        $css = D.querySelector('#user-css');
-        $editors = {
-            data: null,
-            code: null,
-            css: null
-        };
-        setupEditors();
-        setupPresets();
-        fixKeyboardShortcuts();
-        bindUI();
-    }, false);
-
     // Fills out $editors with ACE editors
 
     function setupEditors() {
@@ -77,7 +63,7 @@
     // Load preset names from OPTS.presetsURI, load the default/hash, and setup load handlers
 
     function setupPresets() {
-        var defaultName, presets;
+        var defaultName;
 
         defaultName = (OPTS.presetInHash && location.hash)
         ? unescape(location.hash.slice(1)) : OPTS.defaultPreset;
@@ -265,6 +251,20 @@
             }, delay); // DANGER: workers-css.js and workers-javascript.js must have timeouts below this
         }
     }
+
+    W.addEventListener('load', function () {
+        $playground = D.querySelector('#playground');
+        $css = D.querySelector('#user-css');
+        $editors = {
+            data: null,
+            code: null,
+            css: null
+        };
+        setupEditors();
+        setupPresets();
+        fixKeyboardShortcuts();
+        bindUI();
+    }, false);
 
 }(window))
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
