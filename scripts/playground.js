@@ -34,29 +34,20 @@
         }
     };
 
-    // Fills out $editors with ACE editors
+    function unlessErrorsIn(id, callback, delay) {
+        var el, timer;
 
-    function setupEditors() {
-        var jsMode, cssMode, name, ed, session;
+        el = D.getElementById(id);
 
-        jsMode = require('ace/mode/javascript').Mode;
-        cssMode = require('ace/mode/css').Mode;
+        return function () {
+            W.clearTimeout(timer);
 
-        for (name in $editors) {
-            if ($editors.hasOwnProperty(name)) {
-                ed = $editors[name] = ace.edit(name + '-editor');
-                ed.setTheme('ace/theme/' + OPTS.theme);
-
-                session = ed.getSession();
-                session.setTabSize(OPTS.tabSize);
-                session.setUseWrapMode(OPTS.useWrapMode);
-                session.setMode(name === 'css' ? new cssMode() : new jsMode());
-            }
-        }
-        $editors.data.getSession().on('change', unlessErrorsIn('data-editor', updateData, 250));
-        $editors.code.getSession().on('change', unlessErrorsIn('code-editor', updateCode, 350));
-        // CSS editor does not accept SVG CSS as valid, so update on every change
-        $editors.css.getSession().on('change', Util.runLater(updateCSS, 350));
+            timer = W.setTimeout(function () {
+                if (!el.querySelector('div_gutter-cell_error')) {
+                    callback();
+                }
+            }, delay); // DANGER: workers-css.js and workers-javascript.js must have timeouts below this
+        };
     }
 
     function resetPlayground() {
@@ -236,19 +227,29 @@
         updateCode('css');
     }
 
+    // Fills out $editors with ACE editors
 
+    function setupEditors() {
+        var jsMode, cssMode, name, ed, session;
 
-    function unlessErrorsIn(id, callback, delay) {
-        var el, timer;
+        jsMode = require('ace/mode/javascript').Mode;
+        cssMode = require('ace/mode/css').Mode;
 
-        el = D.getElementById(id);
+        for (name in $editors) {
+            if ($editors.hasOwnProperty(name)) {
+                ed = $editors[name] = ace.edit(name + '-editor');
+                ed.setTheme('ace/theme/' + OPTS.theme);
 
-        return function () {
-            W.clearTimeout(timer);
-            timer = W.setTimeout(function () {
-                if (!el.querySelector('div_gutter-cell_error')) callback();
-            }, delay); // DANGER: workers-css.js and workers-javascript.js must have timeouts below this
+                session = ed.getSession();
+                session.setTabSize(OPTS.tabSize);
+                session.setUseWrapMode(OPTS.useWrapMode);
+                session.setMode(name === 'css' ? new cssMode() : new jsMode());
+            }
         }
+        $editors.data.getSession().on('change', unlessErrorsIn('data-editor', updateData, 250));
+        $editors.code.getSession().on('change', unlessErrorsIn('code-editor', updateCode, 350));
+        // CSS editor does not accept SVG CSS as valid, so update on every change
+        $editors.css.getSession().on('change', Util.runLater(updateCSS, 350));
     }
 
     W.addEventListener('load', function () {
