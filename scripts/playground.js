@@ -12,7 +12,7 @@
         useWrapMode: false,
         presetsURI: './presets/',
         // URI to presets; must end in "/"
-        defaultPreset: 'BlankDefault',
+        defaultPreset: 'drt',
         // Exact
         presetInHash: true,
         // Load preset from hash and set hash in usePreset()
@@ -62,7 +62,7 @@
             presetName = presets.value;
         }
         if (OPTS.presetInHash) {
-            location.hash = escape(presetName);
+            location.hash = Util.esc(presetName);
         }
         path = OPTS.presetsURI + presetName;
 
@@ -84,7 +84,7 @@
     function setupPresets() {
         var defaultName;
 
-        defaultName = (OPTS.presetInHash && location.hash) ? unescape(location.hash.slice(1)) : OPTS.defaultPreset;
+        defaultName = (OPTS.presetInHash && location.hash) ? Util.unesc(location.hash.slice(1)) : OPTS.defaultPreset;
 
         presets = D.getElementById('presets');
         presets.addEventListener('change', usePreset, false);
@@ -123,7 +123,7 @@
 
     function runCode() {
         try {
-            eval($editors.code.getSession().getValue());
+            Util.evl($editors.code.getSession().getValue());
         } catch (err) {
             C.log('Updating code: ' + err.message);
         }
@@ -210,7 +210,7 @@
     function updateData() {
         //C.debug('Update Data');
         try {
-            $data = eval($editors.data.getSession().getValue());
+            $data = Util.evl($editors.data.getSession().getValue());
         } catch (err) {
             C.log('Updating data: ' + err.message);
         }

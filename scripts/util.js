@@ -66,6 +66,18 @@ var Util = (function (W) { // IIFE
         return [s];
     }
 
+    function _evl(str) {
+        return eval(str);
+    }
+
+    function _esc(str) {
+        return escape(str);
+    }
+
+    function _unesc(str) {
+        return unescape(str);
+    }
+
     /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
     // d3.js helpers
     // Create a function that returns a particular property of its parameter.
@@ -96,6 +108,9 @@ var Util = (function (W) { // IIFE
     }
 
     self.init = _init;
+    self.evl = _evl;
+    self.esc = _esc;
+    self.unesc = _unesc;
     self.runLater = _runLater;
     self.createSVG = _createSVG;
     W.ƒ = _ƒ;
