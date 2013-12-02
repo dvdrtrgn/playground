@@ -1,5 +1,5 @@
 /*jslint es5:true, white:false */
-/*globals Util, $data:true, ace, d3, require, window */
+/*globals Util, $data:true, ace, d3, require, swizzle, window */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 (function (W) {
     var C, D, OPTS, $css, $playground, $editors, presets;
@@ -148,45 +148,9 @@
     }
 
     function swizzleData() {
-        swizzleData.array($data);
-        updateCode('data');
+        swizzle.array($data);
+        updateCode('code');
     }
-
-    swizzleData.array = function (a) {
-        var i, v;
-
-        for (i = a.length; i--;) {
-            v = a[i];
-
-            if (typeof v === 'number') {
-                a[i] = swizzleData.number(v);
-            } else if (v instanceof Array) {
-                swizzleData.array(v);
-            } else if (v instanceof Object) {
-                swizzleData.object(v);
-            }
-        }
-    };
-    swizzleData.number = function (n) {
-        return (n += (Math.random() - 0.5) * n / 5);
-    };
-    swizzleData.object = function (o) {
-        var k, v;
-
-        for (k in o) {
-            if (o.hasOwnProperty(k)) {
-                v = o[k];
-
-                if (typeof v === 'number' && k !== 'id') {
-                    o[k] = swizzleData.number(v);
-                } else if (v instanceof Array) {
-                    swizzleData.array(v);
-                } else if (v instanceof Object) {
-                    swizzleData.object(v);
-                }
-            }
-        }
-    };
 
     function resizeWindow() {
         //C.debug('Resize Window');
