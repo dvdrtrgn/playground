@@ -1,5 +1,5 @@
-/*jslint es5:true, white:false */
-/*globals window */
+/*jslint es5:true, white:false, evil:true */
+/*globals d3, escape, unescape, window */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 var Util = (function (W) { // IIFE
     var name = 'Util',
@@ -49,21 +49,12 @@ var Util = (function (W) { // IIFE
         };
     }
 
-    function _createSVG (view) {
+    function _createSVG(view) {
         view = view || '0 0 100 100';
 
         var svg = d3.select('#playground').selectAll('svg').data([0]);
 
         return svg.enter().append('svg').attr('viewBox', view);
-    };
-
-    function _createSVG2(where) {
-        where = where || '#playground';
-
-        var s = D.createElement('svg')
-        D.body.appendChild(s);
-        s.setAttribute('viewBox', '0 0 100 100');
-        return [s];
     }
 
     function _evl(str) {
@@ -83,7 +74,7 @@ var Util = (function (W) { // IIFE
     // Create a function that returns a particular property of its parameter.
     // If that property is a function, invoke it (and pass optional params).
 
-    _ƒ = function (name) {
+    function _f(name) {
         var v, params;
 
         params = Array.prototype.slice.call(arguments, 1);
@@ -91,11 +82,11 @@ var Util = (function (W) { // IIFE
         return function (o) {
             return (typeof(v = o[name]) === 'function' ? v.apply(o, params) : v);
         };
-    };
+    }
 
-    _I = function (d) {
+    function _I(d) {
         return d; // Return the first argument passed in
-    };
+    }
 
     /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
@@ -113,10 +104,22 @@ var Util = (function (W) { // IIFE
     self.unesc = _unesc;
     self.runLater = _runLater;
     self.createSVG = _createSVG;
-    W.ƒ = _ƒ;
+    W.ƒ = _f;
     W.I = _I;
 
     return self.init();
 
 }(window));
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/*
+
+    function _createSVG2(where, attr) {
+        where = where || '#playground';
+
+        var s = D.createElement('svg');
+        D.body.appendChild(s);
+        s.setAttribute('viewBox', '0 0 100 100');
+        return [s];
+    }
+
+*/
