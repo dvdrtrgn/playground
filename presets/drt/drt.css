@@ -3,3 +3,11 @@ circle {
     fill: green;
     stroke: white;
 }
+text {
+    color: green;
+    fill: white;
+    font-family: "Marker Felt";
+    font-weight: 900;
+    stroke: green;
+    stroke-width: 0.5px;
+}
