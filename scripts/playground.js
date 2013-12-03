@@ -2,11 +2,11 @@
 /*globals Util, $data:true, ace, d3, require, swizzle, window */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 (function (W) {
-    var C, D, OPTS, $css, $playground, $editors, presets;
+    var C, D, Df, $css, $playground, $editors, presets;
     C = W.console;
     D = W.document;
 
-    OPTS = {
+    Df = {
         tabSize: 4,
         theme: 'cobalt',
         useWrapMode: false,
@@ -61,10 +61,10 @@
         if (typeof presetName !== 'string') {
             presetName = presets.value;
         }
-        if (OPTS.presetInHash) {
+        if (Df.presetInHash) {
             location.hash = Util.esc(presetName);
         }
-        path = OPTS.presetsURI + presetName + '/' + presetName;
+        path = Df.presetsURI + presetName + '/' + presetName;
 
         resetPlayground();
         d3.text(path + '.css', function (css) {
@@ -79,19 +79,19 @@
         });
     }
 
-    // Load preset names from OPTS.presetsURI, load the default/hash, and setup load handlers
+    // Load preset names from Df.presetsURI, load the default/hash, and setup load handlers
 
     function setupPresets() {
         var defaultName;
 
-        defaultName = (OPTS.presetInHash && location.hash) ? //
+        defaultName = (Df.presetInHash && location.hash) ? //
         Util.unesc(location.hash.slice(1)) : //
-        OPTS.defaultPreset;
+        Df.defaultPreset;
 
         presets = D.getElementById('presets');
         presets.addEventListener('change', usePreset, false);
 
-        d3.text(OPTS.presetsURI, function (html) {
+        d3.text(Df.presetsURI, function (html) {
             var names, i, sel;
 
             names = html.match(/[^<>]+(?=\/<\/a>)/g);
@@ -135,14 +135,14 @@
 
     function updateCode(changeSource) {
         //C.debug('Update Code');
-        if (!OPTS.runOnChange) {
+        if (!Df.runOnChange) {
             return;
         }
         if (typeof changeSource !== 'string') {
             changeSource = 'code';
         }
-        if (OPTS.runOnChangeOf[changeSource]) {
-            if (OPTS.resetPGOnChangeOf[changeSource]) {
+        if (Df.runOnChangeOf[changeSource]) {
+            if (Df.resetPGOnChangeOf[changeSource]) {
                 resetPlayground();
             }
             runCode();
@@ -160,9 +160,9 @@
     }
 
     function toggleLiveUpdates() {
-        OPTS.runOnChange = D.getElementById('runcode').checked;
+        Df.runOnChange = D.getElementById('runcode').checked;
 
-        if (OPTS.runOnChange) {
+        if (Df.runOnChange) {
             updateCode('code');
         }
     }
@@ -204,11 +204,11 @@
         for (name in $editors) {
             if ($editors.hasOwnProperty(name)) {
                 ed = $editors[name] = ace.edit(name + '-editor');
-                ed.setTheme('ace/theme/' + OPTS.theme);
+                ed.setTheme('ace/theme/' + Df.theme);
 
                 session = ed.getSession();
-                session.setTabSize(OPTS.tabSize);
-                session.setUseWrapMode(OPTS.useWrapMode);
+                session.setTabSize(Df.tabSize);
+                session.setUseWrapMode(Df.useWrapMode);
                 session.setMode(name === 'css' ? new cssMode() : new jsMode());
             }
         }
