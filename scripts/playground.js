@@ -64,7 +64,7 @@
         if (OPTS.presetInHash) {
             location.hash = Util.esc(presetName);
         }
-        path = OPTS.presetsURI + presetName;
+        path = OPTS.presetsURI + presetName + '/' + presetName;
 
         resetPlayground();
         d3.text(path + '.css', function (css) {
@@ -84,7 +84,9 @@
     function setupPresets() {
         var defaultName;
 
-        defaultName = (OPTS.presetInHash && location.hash) ? Util.unesc(location.hash.slice(1)) : OPTS.defaultPreset;
+        defaultName = (OPTS.presetInHash && location.hash) ? //
+        Util.unesc(location.hash.slice(1)) : //
+        OPTS.defaultPreset;
 
         presets = D.getElementById('presets');
         presets.addEventListener('change', usePreset, false);
@@ -92,7 +94,7 @@
         d3.text(OPTS.presetsURI, function (html) {
             var names, i, sel;
 
-            names = html.match(/[^<>]+(?=\.js<\/a>)/g);
+            names = html.match(/[^<>]+(?=\/<\/a>)/g);
 
             for (i = 0; i < names.length; ++i) {
                 sel = (names[i] === defaultName);
