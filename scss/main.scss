@@ -1,3 +1,11 @@
+a {
+    color: silver;
+
+    &:hover {
+        color: red;
+    }
+}
+
 %foo1 {
     bottom: 0;
     left: 0;
