@@ -104,7 +104,7 @@ var Util = (function (W) { // IIFE
     self.unesc = _unesc;
     self.runLater = _runLater;
     self.createSVG = _createSVG;
-    W.ƒ = _f;
+    W.F = _f;
     W.I = _I;
 
     return self.init();

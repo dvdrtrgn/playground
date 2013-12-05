@@ -40,14 +40,15 @@ var Escape = (function (W) { // IIFE
 
     var escapeHash = {
         _: function (input) {
-            var ret = escapeHash[input], code;
+            var ret = escapeHash[input],
+                code;
 
             if (!ret) {
                 if (input.length - 1) {
                     ret = String.fromCharCode(input.substring(input.length - 3 ? 2 : 1));
                 } else {
                     code = input.charCodeAt(0);
-                    ret = code < 256  //
+                    ret = code < 256 //
                     ? "%" + (0 + code.toString(16)).slice(-2).toUpperCase() //
                     : "%u" + ("000" + code.toString(16)).slice(-4).toUpperCase();
                 }
@@ -58,12 +59,14 @@ var Escape = (function (W) { // IIFE
         }
     };
 
-    W.escape = (W.escape || function (str) {
+    W.escape = (W.escape ||
+    function (str) {
         return str.replace(/[^\w @\*\-\+\.\/]/g, function (aChar) {
             return escapeHash._(aChar);
         });
     });
-    W.unescape = (W.unescape || function (str) {
+    W.unescape = (W.unescape ||
+    function (str) {
         return str.replace(/%(u[\da-f]{4}|[\da-f]{2})/gi, function (seq) {
             return escapeHash._(seq);
         });
@@ -77,7 +80,7 @@ var Escape = (function (W) { // IIFE
             'encodeURIComponent',
             'escape',
             'encodeURI',
-        ];
+            ];
         all.push('changes? ' + tests.join('...'));
 
         all = all.concat(rows.map(function (e, i) {

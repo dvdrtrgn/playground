@@ -1,8 +1,10 @@
 /*jslint es5:true, white:false */
 /*globals Util, $data:true, ace, d3, require, swizzle, window */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+var $playground;
+
 (function (W) {
-    var C, D, Df, $css, $playground, $editors, presets;
+    var C, D, Df, $css, $editors, presets;
     C = W.console;
     D = W.document;
 

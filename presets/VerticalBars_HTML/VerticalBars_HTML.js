@@ -1,3 +1,6 @@
+/*jslint es5:true, white:false */
+/*globals F, $data, d3 */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 var transitionDurationMS = 200;
 var divs = d3.select("#playground").selectAll("div").data($data);
 
@@ -14,4 +17,4 @@ divs.transition().duration(transitionDurationMS) //
 .style("height", function (d) {
     return d * 2 + "px";
 }) //
-.text(ƒ ('toFixed'));
+.text(F('toFixed'));

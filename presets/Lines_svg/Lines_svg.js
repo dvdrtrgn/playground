@@ -1,5 +1,8 @@
+/*jslint es5:true, white:false */
+/*globals Util, $data, d3 */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 var svg = Util.createSVG(),
-    line, items;
+    line, items, path;
 
 function x(d) {
     return d.x;

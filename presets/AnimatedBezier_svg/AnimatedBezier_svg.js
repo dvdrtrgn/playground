@@ -158,7 +158,7 @@
     last = 0;
 
     d3.timer(function (elapsed) {
-        t = (t + (elapsed - last) / 5000) % 1;
+        t = (t + (elapsed - last) / 5000) % (1 | 0);
         last = elapsed;
         update();
     });

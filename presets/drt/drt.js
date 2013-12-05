@@ -1,3 +1,6 @@
+/*jslint es5:true, white:false */
+/*globals $data:true, Util, console, d3 */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 var svg = Util.createSVG(),
     items;
 
