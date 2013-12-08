@@ -6,7 +6,7 @@ var svg = Util.createSVG('0 0 300 200'),
 
 // LINE 1
 svg.append('path').attr('class', 't1') //
-.attr('d', 'M0,60 L50,110 L90,70 L140,100 z');
+.attr('d', 'M0,60 L50,110 L90,70 L140,100');
 
 // LINE 2
 path = d3.svg.line() //
@@ -17,7 +17,7 @@ path = d3.svg.line() //
 });
 
 svg.append('path').attr('class', 't2') //
-.attr('d', path($data) + 'z');
+.attr('d', path($data));
 
 //
 //

@@ -1,7 +1,6 @@
 /*jslint es5:true, white:false */
 /*globals F, $data, d3 */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-var a = d3.select('#playground').selectAll('article').data($data);
 
 function pxScale(factor) {
     return function (d) {
@@ -9,10 +8,21 @@ function pxScale(factor) {
     };
 }
 
-a.enter().append('article').append('h2').text(F('title'));
+var play = d3.select('#playground'),
+    art, bars;
 
-var bars = a.selectAll('div.bar').data(F('values'));
+art = play.selectAll('article').data($data);
 
-bars.enter().append('div').attr('class', 'bar');
+art.enter() //
+.append('article').append('h2')
+.text(F('title'));
+
+bars = art.selectAll('div.bar').data(F('values'));
+
+bars.enter()
+.append('div')
+.attr('class', 'bar')
+.style('height', pxScale(3));
+
 bars.exit().remove();
-bars.style('height', pxScale(2));
+
