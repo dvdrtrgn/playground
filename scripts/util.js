@@ -84,7 +84,7 @@ var Util = (function (W) { // IIFE
         };
     }
 
-    function _I(d) {
+    function _i(d) {
         return d; // Return the first argument passed in
     }
 
@@ -105,7 +105,7 @@ var Util = (function (W) { // IIFE
     self.runLater = _runLater;
     self.createSVG = _createSVG;
     W.F = _f;
-    W.I = _I;
+    W.I = _i;
 
     return self.init();
 
