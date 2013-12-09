@@ -1,5 +1,5 @@
 path {
-    stroke-linejoin: miter;
+    stroke-linejoin: round;
     stroke-miterlimit: 99;
     stroke-width: 3px;
 }
@@ -10,11 +10,11 @@ text {
 }
 
 .t1 {
-    fill: gray;
+    fill: rgba(125, 125, 125, 0.5);
     stroke: rgba(255, 0, 0, 0.5);
 }
 .t2 {
-    fill: yellow;
+    fill: rgba(255, 255, 0, 0.5);
     stroke: rgba(55, 155, 255, 0.5);
 }
 
