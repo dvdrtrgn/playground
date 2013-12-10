@@ -1,3 +1,7 @@
+svg {
+    border: 1px solid red;
+}
+
 path {
     stroke-linejoin: round;
     stroke-miterlimit: 99;
