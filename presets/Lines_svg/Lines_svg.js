@@ -2,10 +2,18 @@
 /*globals Util, $data, d3 */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 var C = console,
-    D = {},
+    D = {
+        factor: 1.25,
+        margin: 1.5,
+        offset: -300,
+        ratio: 3,
+        size: null,
+        unit: 100,
+    },
     W = window;
 
 W.D = D;
+D.size = D.unit * D.ratio;
 
 function midpoint(ele) {
     var w, h;
@@ -41,12 +49,13 @@ D.add = function (arr) {
 };
 D.adds = function () {
     var c = d3.event.sourceEvent;
-    D.add([c.x, c.y]);
+    // C.debug(c);
+    D.add([c.layerX - D.offset, c.layerY]);
     D.path.attr('class', 't2') //
 };
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-D.svg = Util.createSVG('-100 -100 200 200');
+D.svg = Util.createSVG('-150 -150 300 300');
 
 D.calc = d3.svg.line();
 D.mid = midpoint(D.svg);
@@ -55,10 +64,19 @@ D.dstr = '';
 
 D.svg.call(d3.behavior.drag().on('dragstart', D.adds));
 
+D.svg = D.svg.append('g');
+D.svg.attr('transform','scale(1.00) translate(' + D.offset + ', 0)');
+
 function drawAxes() {
-    D.app([0,-100], [0,100]);
-    D.app([-100,0], [100,0]);
-    D.app([0,0], [0,0]);
+    var F = D.ratio,
+        U = D.unit;
+    D.app([   0 , -U],[   0 ,  U]);
+    D.app([  -U ,  0],[   U ,  0]);
+    D.app([-F*U , -U],[+F*U , -U]);
+    D.app([+F*U , -U],[+F*U , +U]);
+    D.app([+F*U , +U],[-F*U , +U]);
+    D.app([-F*U , +U],[-F*U , -U]);
+    D.app([   0 ,  0],[   0 ,  0]);
 }
 
 drawAxes();
