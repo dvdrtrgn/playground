@@ -41,7 +41,7 @@ D.add = function (arr) {
         D.path.attr('d', D.dstr);
     }
 };
-D.adds = function () {
+D.add_h = function () {
     var c = d3.event.sourceEvent;
     // C.debug(c);
     D.add([c.layerX - D.offset, c.layerY]);
@@ -56,7 +56,7 @@ D.mid = Util.midpoint(D.svg);
 D.arr = [0,0];
 D.dstr = '';
 
-D.svg.call(d3.behavior.drag().on('dragstart', D.adds));
+D.svg.call(d3.behavior.drag().on('dragstart', D.add_h));
 
 D.svg = D.svg.append('g');
 D.svg.attr('transform','scale(1.00) translate(' + D.offset + ', 0)');
