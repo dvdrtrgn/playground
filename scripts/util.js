@@ -64,6 +64,13 @@ var Util = (function (W) { // IIFE
         return svg.enter().append('svg').attr('viewBox', view);
     }
 
+    function _linear() {
+        return d3.svg.line()
+        .x(function(d){return d[0]})
+        .y(function(d){return d[1]})
+        .interpolate("linear");
+    }
+
     function _evl(str) {
         return eval(str);
     }
@@ -108,6 +115,7 @@ var Util = (function (W) { // IIFE
     self.init = _init;
     self.evl = _evl;
     self.esc = _esc;
+    self.line = _linear();
     self.midpoint = _mid;
     self.unesc = _unesc;
     self.runLater = _runLater;
