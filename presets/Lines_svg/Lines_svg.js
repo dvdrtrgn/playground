@@ -9,6 +9,11 @@ var C = console,
         ratio: 3,
         size: null,
         unit: 100,
+        path: null,
+        last: {
+            path: null,
+            point: null,
+        },
     },
     W = window;
 
@@ -24,6 +29,10 @@ function draw(cls) {
     .attr('class', cls) //
     .attr('d', D.calc($data));
 }
+function store(lines, point) {
+    D.last.lines = lines;
+    D.last.point = point;
+}
 // append a new line path
 D.app = function (arr1, arr2, cls) {
     cls = cls || 't1';
@@ -31,6 +40,7 @@ D.app = function (arr1, arr2, cls) {
         $data = [arr1, arr2];
     }
     draw(cls);
+    store(D.path, arr2);
 };
 // add points to last path
 D.add = function (arr) {
@@ -70,7 +80,7 @@ function drawAxes() {
     D.app([+F*U , -U],[+F*U , +U]);
     D.app([+F*U , +U],[-F*U , +U]);
     D.app([-F*U , +U],[-F*U , -U]);
-    D.app([   0 ,  0],[   0 ,  0]);
+    D.app([   0 ,  0],[  10 , 10]);
 }
 
 drawAxes();
