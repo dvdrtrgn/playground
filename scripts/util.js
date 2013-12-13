@@ -49,6 +49,13 @@ var Util = (function (W) { // IIFE
         };
     }
 
+    function _mid(ele) {
+        var w, h;
+        w = parseFloat(ele.style('width')) / 2;
+        h = parseFloat(ele.style('height')) / 2;
+        return [w, h];
+    }
+
     function _createSVG(view) {
         view = view || '0 0 100 100';
 
@@ -101,6 +108,7 @@ var Util = (function (W) { // IIFE
     self.init = _init;
     self.evl = _evl;
     self.esc = _esc;
+    self.midpoint = _mid;
     self.unesc = _unesc;
     self.runLater = _runLater;
     self.createSVG = _createSVG;

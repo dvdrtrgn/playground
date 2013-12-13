@@ -15,12 +15,6 @@ var C = console,
 W.D = D;
 D.size = D.unit * D.ratio;
 
-function midpoint(ele) {
-    var w, h;
-    w = parseInt(ele.style('width')) / 2;
-    h = parseInt(ele.style('height')) / 2;
-    return [w, h];
-}
 function reCalc(arr) {
     return [arr[0] - D.mid[0], arr[1] - D.mid[1]];
 }
@@ -58,7 +52,7 @@ D.adds = function () {
 D.svg = Util.createSVG('-150 -150 300 300');
 
 D.calc = d3.svg.line();
-D.mid = midpoint(D.svg);
+D.mid = Util.midpoint(D.svg);
 D.arr = [0,0];
 D.dstr = '';
 
