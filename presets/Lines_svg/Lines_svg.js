@@ -9,6 +9,10 @@ var C = window.console,
     offset: - 300,
     ratio: 3,
     size: null,
+    svg: Util.createSVG('-150 -150 300 300'),
+    lnfn: d3.svg.line(),
+    arr: [0, 0],
+    dstr: '',
     unit: 100,
     path: null,
     last: {
@@ -18,8 +22,11 @@ var C = window.console,
 },
     W = window;
 
-W.D = D;
+D.mid = Util.midpoint(D.svg);
 D.size = D.unit * D.ratio;
+
+
+W.D = D;
 
 function reCalc(arr) {
     return [arr[0] - D.mid[0], arr[1] - D.mid[1]];
@@ -71,13 +78,6 @@ D.add_h = function () {
     D.path.attr('class', 't2');
 };
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-
-D.svg = Util.createSVG('-150 -150 300 300');
-
-D.lnfn = d3.svg.line();
-D.mid = Util.midpoint(D.svg);
-D.arr = [0, 0];
-D.dstr = '';
 
 D.svg.call(d3.behavior.drag().on('dragstart', D.add_h));
 
