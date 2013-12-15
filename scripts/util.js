@@ -48,7 +48,12 @@ var Util = (function (W) { // IIFE
             timer = W.setTimeout(callback, delay);
         };
     }
-
+    function _div(sel) {
+        if (sel || !Df.D) {
+            Df.D = d3.select(sel || '#playground');
+        }
+        return Df.D;
+    }
     function _mid(ele) {
         var w, h;
         w = parseFloat(ele.style('width')) / 2;
@@ -68,7 +73,7 @@ var Util = (function (W) { // IIFE
     function _createSVG(view, bounded) {
         view = view || '0 0 1000 1000';
 
-        var svg = d3.select('#playground').selectAll('svg').data([0]);
+        var svg = _div().selectAll('svg').data([0]);
         svg.enter().append('svg').attr('viewBox', view);
         if (bounded) {
             _box(svg);
@@ -81,6 +86,13 @@ var Util = (function (W) { // IIFE
         .x(function(d){return d[0]})
         .y(function(d){return d[1]})
         .interpolate("linear");
+    }
+
+    function _rect() {
+        return _div().selectAll('svg').append('rect') //
+        .attr('width', 30).attr('height',30) //
+        .attr('x',0).attr('y',0) //
+        .style('fill','steelblue');
     }
 
     function _evl(str) {
@@ -125,13 +137,15 @@ var Util = (function (W) { // IIFE
     }
 
     self.init = _init;
-    self.evl = _evl;
+    self.createSVG = _createSVG;
     self.esc = _esc;
+    self.evl = _evl;
     self.line = _linear();
     self.midpoint = _mid;
-    self.unesc = _unesc;
+    self.play = _div;
+    self.rect = _rect;
     self.runLater = _runLater;
-    self.createSVG = _createSVG;
+    self.unesc = _unesc;
     W.F = _f;
     W.I = _i;
 
