@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>D3.js Playground2</title>
+    <link href="../styles/main.css" rel="stylesheet">
+    <script src="/lib/d3/2.10.0/d3.js"></script>
+    <script src="../scripts/util.js"></script>
+    <style id="user-css">
+    #playground-wrap {
+        height: 100%;
+        overflow: scroll;
+    }
+    #playground {
+        padding: 1em;
+        background-color: #eee;
+        width: 50%;
+    }
+    </style>
+</head>
+<body><section id="playground-wrap">
+<header><h2>#playground<span>(<a href="https://github.com/mbostock/d3/wiki/API-Reference">docs!</a>)</span></h2></header>
+<div id="playground">
+
+
+
+
+     <div id="example1"><h3>example1</h3>
+     </div>
+     <script>
+         pdata = [10,12,6,8,15];
+
+         selectDIV = d3.select("#example1");
+
+         selectDIV.selectAll("p")
+             .data(pdata)
+             .enter()
+             .append("p")
+             .text(function(d){return d;});
+     </script>
+     <!--
+
+      -->
+     <div id="example2"><h3>example2</h3>
+        <p>Already existing paragraph 1</p>
+        <p>Already existing paragraph 2</p>
+     </div>
+     <script>
+         pdata = [10,12,6,8,15];
+
+         selectDIV = d3.select("#example2");
+
+         selectDIV.selectAll("p")
+             .data(pdata)
+             .enter()
+             .append("p")
+             .text(function(d){return d;});
+     </script>
+     <!--
+
+      -->
+     <div id="example3"><h3>example3</h3>
+        <p>Already existing paragraph 1</p>
+        <p>Already existing paragraph 2</p>
+     </div>
+     <script>
+         pdata = [10,12,6,8,15];
+
+         selectDIV = d3.select("#example3");
+
+         selectDIV.selectAll("p")
+             .data(pdata, function(d){return d;})
+             .enter()
+             .append("p")
+             .text(function(d){return d;});
+     </script>
+
+
+
+
+</div></section>
+<script>
+
+</script>
+</body></html>
