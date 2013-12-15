@@ -55,13 +55,25 @@ var Util = (function (W) { // IIFE
         h = parseFloat(ele.style('height')) / 2;
         return [w, h];
     }
+    function _box(ele) {
+        var str = ele.attr('viewBox'),
+            arr = str.split(' ');
 
-    function _createSVG(view) {
-        view = view || '0 0 100 100';
+        C.log(arr.w = (arr[2] - arr[0]) * 2);
+        C.log(arr.h = (arr[3] - arr[1]) *.7);
+
+        ele.attr('width', arr.w / 1).attr('height', arr.h / 1);
+        return ele;
+    }
+    function _createSVG(view, bounded) {
+        view = view || '0 0 1000 1000';
 
         var svg = d3.select('#playground').selectAll('svg').data([0]);
-
-        return svg.enter().append('svg').attr('viewBox', view);
+        svg.enter().append('svg').attr('viewBox', view);
+        if (bounded) {
+            _box(svg);
+        }
+        return svg;
     }
 
     function _linear() {
