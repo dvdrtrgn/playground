@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>D3.js Playground</title>
     <link href="styles/main.css" rel="stylesheet">
+    <script src="/lib/jquery/1.8.2/jquery.js"></script>
     <script src="/lib/d3/2.10.0/d3.js"></script>
     <script src="libs/ace.js"></script>
     <script src="libs/theme-cobalt.js"></script>
@@ -50,5 +51,12 @@
         </header>
         <div class="editor" id="code-editor"></div>
     </section>
+    <script>
+        var all = $('#data, #css, #code');
+
+        all.on('dblclick', 'h2', function () {
+            all.hide().fadeIn(9999);
+        });
+    </script>
 </body>
 </html>

@@ -81,8 +81,8 @@ body {
 
 #playground-wrap {
     border-top: 24px;
-    height: 50%;
-    overflow: hidden;
+//    height: 50%;
+    overflow: auto;
     padding: 0;
 
     header {
@@ -109,7 +109,6 @@ body {
     top: 50%;
     width: 67%
 }
-
 
 #overview {
     display: none;
