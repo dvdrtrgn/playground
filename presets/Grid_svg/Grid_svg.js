@@ -1,38 +1,44 @@
-// Select the DIV container "D3line" then
-// add an SVG element to it
+/*jslint es5:true, white:false */
+/*globals d3 */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+var gap = 50,
+    height = 400,
+    width = 400,
+    j = NaN,
+    lineGraph;
 
-var width = 400;
-var height = 400;
+lineGraph = d3.select('#playground') //
+.append('svg').attr({
+    'width': width,
+    'height': height,
+});
 
-var lineGraph = d3.select("#playground")
-    .append("svg:svg")
-    .attr("width", width)
-    .attr("height", height);
+/*
+    Lines use 4 attributes (x1, y1, x2, and y2)
+    You also need to specify the stroke
+*/
+for (j = gap; j <= width - gap; j += gap) { // horizontal lines
+    lineGraph.append('svg:line').attr({
+        x1: gap,
+        y1: j,
+        x2: width - gap,
+        y2: j,
+    }).style({
+        stroke: 'steelblue',
+        'stroke-width': j / width * 10,
+        opacity: 1- j / width,
+    });
+}
 
-// To draw a line use the "svg:line" element.
-// "svg:line" element requires 4 attributes (x1, y1, x2, and y2)
-// (x1,y1) are coordinates of the starting point.
-// (x2,y2) are coordinates of the end point.
-// You also need to specify the stroke color.
-
-// Using for loop to draw multiple horizontal lines
-for (var j=25; j <= width-25; j=j+25) {
-    lineGraph.append("svg:line")
-        .attr("x1", 25)
-        .attr("y1", j)
-        .attr("x2", width-25)
-        .attr("y2", j)
-        .style("stroke", "rgb(6,120,155)")
-        .style("stroke-width", 2);
-};
-
-// Using for loop to draw multiple vertical lines
-for (var j=25; j <= height-25; j=j+25) {
-    lineGraph.append("svg:line")
-        .attr("x1", j)
-        .attr("y1", 25)
-        .attr("x2", j)
-        .attr("y2", height-25)
-        .style("stroke", "rgb(6,120,155)")
-        .style("stroke-width", 2);
-};
+for (j = gap; j <= height - gap; j += gap) { // vertical lines
+    lineGraph.append('svg:line').attr({
+        x1: j,
+        y1: gap,
+        x2: j,
+        y2: height - gap,
+    }).style({
+        stroke: 'steelblue',
+        'stroke-width': j / height * 10,
+        opacity: 1- j / height,
+    });
+}
