@@ -112,6 +112,19 @@ var Util = (function (W) { // IIFE
     // Create a function that returns a particular property of its parameter.
     // If that property is a function, invoke it (and pass optional params).
 
+    function _F(name) {
+        var args, prop;
+
+        args = Array.prototype.slice.call(arguments, 1);
+
+        return function (obj, arr) {
+            prop = obj && name ? obj[name] : obj;
+            arr = arr && arr.length ? arr : args;
+
+            return (typeof prop === 'function' ? prop.apply(obj, arr) : prop);
+        };
+    }
+
     function _f(name) {
         var v, params;
 
