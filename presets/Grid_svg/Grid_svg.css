@@ -1,24 +1,15 @@
 svg {
     border: 1px solid red;
 }
-
-path {
-    stroke-linejoin: round;
-    stroke-miterlimit: 99;
-    stroke-width: 3px;
+line {
+    stroke: steelblue;
+    stroke-width: 2px;
 }
-text {
-    fill: green;
-    font-family: "Marker Felt";
-    font-weight: 900;
+.typeA {
+    stroke: green;
+    stroke-width: 1px;
 }
-
-.t1 {
-    fill: rgba(125, 125, 125, 0.5);
-    stroke: rgba(255, 0, 0, 0.5);
+.typeB {
+    stroke: blue;
+    stroke-width: 1px;
 }
-.t2 {
-    fill: rgba(255, 255, 0, 0.5);
-    stroke: rgba(55, 155, 255, 0.5);
-}
-
