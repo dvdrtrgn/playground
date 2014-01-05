@@ -13,32 +13,22 @@ lineGraph = d3.select('#playground') //
     'height': height,
 });
 
-/*
-    Lines use 4 attributes (x1, y1, x2, and y2)
-    You also need to specify the stroke
-*/
-for (j = gap; j <= width - gap; j += gap) { // horizontal lines
-    lineGraph.append('svg:line').attr({
-        x1: gap,
-        y1: j,
-        x2: width - gap,
-        y2: j,
+function line(x1, y1, x2, y2, color, stroke) {
+   return lineGraph.append('svg:line').attr({
+        x1: (x1 || 1),
+        y1: (y1 || 1),
+        x2: (x2 || 1),
+        y2: (y2 || 1),
     }).style({
-        stroke: 'steelblue',
-        'stroke-width': j / width * 10,
-        opacity: 1- j / width,
+        stroke: (color || 'steelblue'),
+        'stroke-width': (stroke || 1),
     });
 }
 
+for (j = gap; j <= width - gap; j += gap) { // horizontal lines
+    line( gap, j, (width - gap), j);
+}
+
 for (j = gap; j <= height - gap; j += gap) { // vertical lines
-    lineGraph.append('svg:line').attr({
-        x1: j,
-        y1: gap,
-        x2: j,
-        y2: height - gap,
-    }).style({
-        stroke: 'steelblue',
-        'stroke-width': j / height * 10,
-        opacity: 1- j / height,
-    });
+    line( j, gap, j, (height - gap), 'red');
 }
