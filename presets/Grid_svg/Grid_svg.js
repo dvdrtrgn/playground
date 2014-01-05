@@ -2,19 +2,25 @@
 /*globals d3 */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 var gap = 50,
-    height = 400,
-    width = 400,
-    j = NaN,
-    lineGraph;
+    height = 333,
+    width = 666,
+    ground, group;
 
-lineGraph = d3.select('#playground') //
+
+ground = d3.select('#playground') //
 .append('svg').attr({
     'width': width,
     'height': height,
 });
 
+function nugroup(x, y) {
+    x = x || 10;
+    y = y || 10;
+    group = ground.append('svg:g').attr('transform', 'translate(' + x + ', ' + y + ')');
+}
+
 function line(x1, y1, x2, y2, clas) {
-    return lineGraph.append('svg:line').attr({
+    group.append('svg:line').attr({
         x1: (x1 || 1),
         y1: (y1 || 1),
         x2: (x2 || 1),
@@ -22,10 +28,18 @@ function line(x1, y1, x2, y2, clas) {
     }).attr('class', clas);
 }
 
-for (j = gap; j <= width - gap; j += gap) { // horizontal lines
-    line(gap, j, (width - gap), j, 'typeA');
+function makeGrid(inc, wi, hi) {
+    var i;
+
+    hi = (hi || wi); // go square?
+    nugroup(44, 22);
+
+    for (i = 0; i <= hi; i += inc) { // horizontal lines
+        line(0, i, wi, i, 'horz');
+    }
+    for (i = 0; i <= wi; i += inc) { // vertical lines
+        line(i, 0, i, hi, 'vert');
+    }
 }
 
-for (j = gap; j <= height - gap; j += gap) { // vertical lines
-    line(j, gap, j, (height - gap), 'typeB');
-}
+makeGrid(50, 300, 200);

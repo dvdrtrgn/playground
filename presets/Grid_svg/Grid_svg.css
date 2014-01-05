@@ -5,11 +5,11 @@ line {
     stroke: steelblue;
     stroke-width: 2px;
 }
-.typeA {
+.horz {
     stroke: green;
     stroke-width: 1px;
 }
-.typeB {
+.vert {
     stroke: blue;
     stroke-width: 1px;
 }
