@@ -18,68 +18,78 @@
     }
     </style>
 </head>
-<body><section id="playground-wrap">
-<header><h2>#playground<span>(<a href="https://github.com/mbostock/d3/wiki/API-Reference">docs!</a>)</span></h2></header>
-<div id="playground">
+<body>
+    <section id="playground-wrap">
+        <header>
+            <h2>#playground <span>(<a href=
+            "https://github.com/mbostock/d3/wiki/API-Reference">docs!</a>)</span></h2>
+        </header>
+        <div id="playground">
+            <div id="example1">
+                <h3>example1</h3>
+                <p>Already existing paragraph 1</p>
+            </div>
+<!--  -->
+            <div id="example2">
+                <h3>example2</h3>
+                <p>Already existing paragraph 1</p>
+                <p>Already existing paragraph 2</p>
+            </div>
+<!--  -->
+            <div id="example3">
+                <h3>example3</h3>
+                <p>Already existing paragraph</p>
+                <p>Already existing paragraph</p>
+            </div>
+<!--  -->
+            <script>
+            var pdata, selectDIV, stat, skip = [];
 
+            pdata = [10, 12, 6, 8, 15, 5];
 
+            selectDIV = d3 //                   ...
+            .select('#example1') //             ...
+            .selectAll('p').data(pdata) //      ...
+            .enter().append('p') //             ...
+            .text(function (d) {
+                return d;
+            });
 
+            selectDIV = d3 //                   ...
+            .select('#example2') //             ...
+            .selectAll('p') //                  ...
+            .data(pdata) //                     ...
+            .enter() //                         ...
+            .append('p') //                     ...
+            .text(function (d) {
+                return d;
+            });
 
-     <div id="example1"><h3>example1</h3>
-     </div>
-     <script>
-         pdata = [10,12,6,8,15];
-
-         selectDIV = d3.select("#example1");
-
-         selectDIV.selectAll("p")
-             .data(pdata)
-             .enter()
-             .append("p")
-             .text(function(d){return d;});
-     </script>
-     <!--
-
-      -->
-     <div id="example2"><h3>example2</h3>
-        <p>Already existing paragraph 1</p>
-        <p>Already existing paragraph 2</p>
-     </div>
-     <script>
-         pdata = [10,12,6,8,15];
-
-         selectDIV = d3.select("#example2");
-
-         selectDIV.selectAll("p")
-             .data(pdata)
-             .enter()
-             .append("p")
-             .text(function(d){return d;});
-     </script>
-     <!--
-
-      -->
-     <div id="example3"><h3>example3</h3>
-        <p>Already existing paragraph 1</p>
-        <p>Already existing paragraph 2</p>
-     </div>
-     <script>
-         pdata = [10,12,6,8,15];
-
-         selectDIV = d3.select("#example3");
-
-         selectDIV.selectAll("p")
-             .data(pdata, function(d){return d;})
-             .enter()
-             .append("p")
-             .text(function(d){return d;});
-     </script>
-
-
-
-
-</div></section>
-<script>
-
-</script>
-</body></html>
+            selectDIV = d3 //                   ...
+            .select('#example3') //             ...
+            .selectAll('p') //                  ...
+            .data(pdata, function (e, i) {
+                stat = 'exists'; // update
+                if (skip[i]) {
+                    stat = 'skip';
+                } else if (this !== pdata) {
+                    skip[i] = true;
+                    this.style.color = 'green';
+                    this.innerText += '#' + i;
+                } else {
+                    stat = 'new';
+                }
+                console.log(1 + i / 10, [e, i], stat);
+                return i;
+            }) //                               ...
+            .enter() //                         ...
+            .append('p') //                     ...
+            .text(function (e, i, o) {
+                console.log(2 + i / 10, [e, i, o], this);
+                return [e, i];
+            });
+            </script>
+        </div>
+    </section>
+</body>
+</html>
