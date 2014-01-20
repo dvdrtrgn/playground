@@ -6,6 +6,19 @@ var gap = 50,
     width = 666,
     ground, group;
 
+/*
+// density = 10, // number of lines
+// scale = 4; //
+    factor n lines x and y
+    or
+    factor approx n distance between lines
+    tell me i have a boundary of 80 and 60
+    and a density of 15
+    how many 15s in 80?
+    5.33333 rounded 5
+    80 / 5 = 16
+    mcrib of (+1) 16
+*/
 
 ground = d3.select('#playground') //
 .append('svg').attr({
@@ -43,3 +56,31 @@ function makeGrid(inc, wi, hi) {
 }
 
 makeGrid(50, 300, 200);
+
+
+function makeData(tot, fac) {
+    tot = (tot || 20) + 1;
+    fac = fac || 10;
+    var arr = [],
+        i, m, tmp;
+
+    for (i = 1; i < tot; i++) {
+        m = i * fac;
+        tmp = [0, tot * fac - m, m, 0];
+        line.apply(this, tmp);
+        arr.push(tmp)
+    }
+    return arr;
+}
+
+console.debug(makeData());
+
+function makePlot(x, y) {
+    if (!y && typeof x === 'object') {
+        x.each(function(a) {
+            makePlot(a[0], a[1]);
+        });
+    } else {
+        line.apply(this, [x, y, x + 1, y + 1]);
+    }
+}
