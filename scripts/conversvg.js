@@ -3,12 +3,8 @@
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 function convertToAbsolute(path) {
-  var has, seg, segs = path.pathSegList,
+  var seg, segs = path.pathSegList,
     x, x0, x1, x2, y, y0, y1, y2, i, len, c;
-
-  has = function (nom, obj) {
-    return obj.hasOwnProperty(nom);
-  };
 
   for (x = 0, y = 0, i = 0, len = segs.numberOfItems; i < len; ++i) {
     seg = segs.getItem(i);
@@ -82,3 +78,4 @@ function convertToAbsolute(path) {
     }
   }
 }
+convertToAbsolute;

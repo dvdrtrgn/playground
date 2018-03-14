@@ -3,11 +3,10 @@
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 var Util = (function (W) { // IIFE
   var name = 'Util',
-    self, C, D, Df;
+    self, C, Df;
 
   self = {};
   C = W.console;
-  D = W.document;
 
   Df = { // DEFAULTS
     abc: true,
@@ -30,7 +29,7 @@ var Util = (function (W) { // IIFE
         W['_' + name] = this;
         C.debug(name, 'Df.inits\n', this);
       }
-    }
+    },
   };
   self._ = Df.__;
   self.inited = Df._false;
@@ -48,28 +47,32 @@ var Util = (function (W) { // IIFE
       timer = W.setTimeout(callback, delay);
     };
   }
+
   function _div(sel) {
     if (sel || !Df.D) {
       Df.D = d3.select(sel || '#playground');
     }
     return Df.D;
   }
+
   function _mid(ele) {
     var w, h;
     w = parseFloat(ele.style('width')) / 2;
     h = parseFloat(ele.style('height')) / 2;
     return [w, h];
   }
+
   function _box(ele) {
     var str = ele.attr('viewBox'),
       arr = str.split(' ');
 
     C.log(arr.w = (arr[2] - arr[0]) * 2);
-    C.log(arr.h = (arr[3] - arr[1]) *.7);
+    C.log(arr.h = (arr[3] - arr[1]) * .7);
 
     ele.attr('width', arr.w / 1).attr('height', arr.h / 1);
     return ele;
   }
+
   function _createSVG(view, bounded) {
     view = view || '0 0 1000 1000';
 
@@ -83,16 +86,20 @@ var Util = (function (W) { // IIFE
 
   function _linear() {
     return d3.svg.line()
-    .x(function(d){return d[0]})
-    .y(function(d){return d[1]})
-    .interpolate("linear");
+      .x(function (d) {
+        return d[0];
+      })
+      .y(function (d) {
+        return d[1];
+      })
+      .interpolate('linear');
   }
 
   function _rect() {
     return _div().selectAll('svg').append('rect') //
-    .attr('width', 30).attr('height',30) //
-    .attr('x',0).attr('y',0) //
-    .style('fill','steelblue');
+      .attr('width', 30).attr('height', 30) //
+      .attr('x', 0).attr('y', 0) //
+      .style('fill', 'steelblue');
   }
 
   function _evl(str) {
@@ -131,7 +138,7 @@ var Util = (function (W) { // IIFE
     params = Array.prototype.slice.call(arguments, 1);
 
     return function (o) {
-      return (typeof(v = o[name]) === 'function' ? v.apply(o, params) : v);
+      return (typeof (v = o[name]) === 'function' ? v.apply(o, params) : v);
     };
   }
 
@@ -162,19 +169,20 @@ var Util = (function (W) { // IIFE
   W.F = _f;
   W.I = _i;
 
+  _F;
   return self.init();
-
 }(window));
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /*
 
-  function _createSVG2(where, attr) {
-    where = where || '#playground';
+    function _createSVG2(where, attr) {
+        where = where || '#playground';
 
-    var s = D.createElement('svg');
-    D.body.appendChild(s);
-    s.setAttribute('viewBox', '0 0 100 100');
-    return [s];
-  }
+        var s = D.createElement('svg');
+        D.body.appendChild(s);
+        s.setAttribute('viewBox', '0 0 100 100');
+        return [s];
+    }
 
 */
+Util;

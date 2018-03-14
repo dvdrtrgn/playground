@@ -25,15 +25,15 @@ var $playground;
       code: true,
       data: true,
       css: false,
-      resize: true
+      resize: true,
     },
     resetPGOnChangeOf: {
       // Erase playground before due to change of...
       code: true,
       data: false,
       css: false,
-      resize: true
-    }
+      resize: true,
+    },
   };
 
   function unlessErrorsIn(id, callback, delay) {
@@ -86,9 +86,9 @@ var $playground;
   function setupPresets() {
     var defaultName;
 
-    defaultName = (Df.presetInHash && location.hash) ? //
-    Util.unesc(location.hash.slice(1)) : //
-    Df.defaultPreset;
+    defaultName = (Df.presetInHash && location.hash) //
+      ? Util.unesc(location.hash.slice(1)) //
+      : Df.defaultPreset;
 
     presets = D.getElementById('presets');
     presets.addEventListener('change', usePreset, false);
@@ -96,7 +96,7 @@ var $playground;
     d3.text(Df.presetsURI, function (html) {
       var names, i, sel;
 
-      names = html.match(/[^<>]+(?=\/<\/a>)/g);
+      names = html.match(/[^< >]+(?=\/<\/a>)/g);
 
       for (i = 0; i < names.length; ++i) {
         sel = (names[i] === defaultName);
@@ -226,7 +226,7 @@ var $playground;
     $editors = {
       data: null,
       code: null,
-      css: null
+      css: null,
     };
     setupEditors();
     setupPresets();

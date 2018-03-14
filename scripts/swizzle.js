@@ -2,12 +2,9 @@
 /*globals Math */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 var swizzle = (function (W) {
-  var C, D, Df;
+  var C;
 
   C = W.console;
-  D = W.document;
-
-  Df = {};
 
   function self(x) {
     self.array(x);
@@ -53,3 +50,4 @@ var swizzle = (function (W) {
 }(window));
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+swizzle;
