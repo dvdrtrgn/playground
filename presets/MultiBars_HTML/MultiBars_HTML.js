@@ -3,26 +3,26 @@
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 function pxScale(factor) {
-    return function (d) {
-        return d * factor + 'px';
-    };
+  return function (d) {
+    return d * factor + 'px';
+  };
 }
 
 var play = d3.select('#playground'),
-    art, bars;
+  art, bars;
 
 art = play.selectAll('article').data($data);
 
 art.enter() //
-.append('article').append('h2')
-.text(F('title'));
+  .append('article').append('h2')
+  .text(F('title'));
 
 bars = art.selectAll('div.bar').data(F('values'));
 
 bars.enter()
-.append('div')
-.attr('class', 'bar')
-.style('height', pxScale(3));
+  .append('div')
+  .attr('class', 'bar')
+  .style('height', pxScale(3));
 
 bars.exit().remove();
 

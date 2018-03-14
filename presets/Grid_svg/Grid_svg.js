@@ -2,9 +2,9 @@
 /*globals d3 */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 var gap = 50,
-    height = 333,
-    width = 666,
-    ground, group;
+  height = 333,
+  width = 666,
+  ground, group;
 
 /*
 // density = 10, // number of lines
@@ -21,66 +21,66 @@ var gap = 50,
 */
 
 ground = d3.select('#playground') //
-.append('svg').attr({
+  .append('svg').attr({
     'width': width,
     'height': height,
-});
+  });
 
 function nugroup(x, y) {
-    x = x || 10;
-    y = y || 10;
-    group = ground.append('svg:g').attr('transform', 'translate(' + x + ', ' + y + ')');
+  x = x || 10;
+  y = y || 10;
+  group = ground.append('svg:g').attr('transform', 'translate(' + x + ', ' + y + ')');
 }
 
 function line(x1, y1, x2, y2, clas) {
-    group.append('svg:line').attr({
-        x1: (x1 || 1),
-        y1: (y1 || 1),
-        x2: (x2 || 1),
-        y2: (y2 || 1),
-    }).attr('class', clas);
+  group.append('svg:line').attr({
+    x1: (x1 || 1),
+    y1: (y1 || 1),
+    x2: (x2 || 1),
+    y2: (y2 || 1),
+  }).attr('class', clas);
 }
 
 function makeGrid(inc, wi, hi) {
-    var i;
+  var i;
 
-    hi = (hi || wi); // go square?
-    nugroup(44, 22);
+  hi = (hi || wi); // go square?
+  nugroup(44, 22);
 
-    for (i = 0; i <= hi; i += inc) { // horizontal lines
-        line(0, i, wi, i, 'horz');
-    }
-    for (i = 0; i <= wi; i += inc) { // vertical lines
-        line(i, 0, i, hi, 'vert');
-    }
+  for (i = 0; i <= hi; i += inc) { // horizontal lines
+    line(0, i, wi, i, 'horz');
+  }
+  for (i = 0; i <= wi; i += inc) { // vertical lines
+    line(i, 0, i, hi, 'vert');
+  }
 }
 
 makeGrid(50, 300, 200);
 
 
 function makeData(tot, fac) {
-    tot = (tot || 20) + 1;
-    fac = fac || 10;
-    var arr = [],
-        i, m, tmp;
+  tot = (tot || 20) + 1;
+  fac = fac || 10;
+  var arr = [],
+    i, m, tmp;
 
-    for (i = 1; i < tot; i++) {
-        m = i * fac;
-        tmp = [0, tot * fac - m, m, 0];
-        line.apply(this, tmp);
-        arr.push(tmp)
-    }
-    return arr;
+  for (i = 1; i < tot; i++) {
+    m = i * fac;
+    tmp = [0, tot * fac - m, m, 0];
+    line.apply(this, tmp);
+    arr.push(tmp);
+  }
+  return arr;
 }
 
 console.debug(makeData());
 
 function makePlot(x, y) {
-    if (!y && typeof x === 'object') {
-        x.each(function(a) {
-            makePlot(a[0], a[1]);
-        });
-    } else {
-        line.apply(this, [x, y, x + 1, y + 1]);
-    }
+  if (!y && typeof x === 'object') {
+    x.each(function(a) {
+      makePlot(a[0], a[1]);
+    });
+  } else {
+    line.apply(this, [x, y, x + 1, y + 1]);
+  }
 }
