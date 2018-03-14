@@ -4,235 +4,235 @@
 var $playground;
 
 (function (W) {
-    var C, D, Df, $css, $editors, presets;
-    C = W.console;
-    D = W.document;
+  var C, D, Df, $css, $editors, presets;
+  C = W.console;
+  D = W.document;
 
-    Df = {
-        tabSize: 4,
-        theme: 'cobalt',
-        useWrapMode: false,
-        presetsURI: './presets/',
-        // URI to presets; must end in "/"
-        defaultPreset: 'drt',
-        // Exact
-        presetInHash: true,
-        // Load preset from hash and set hash in usePreset()
-        runOnChange: true,
-        // Execute code during typing (all fields)?
-        runOnChangeOf: {
-            // Execute due to change of...
-            code: true,
-            data: true,
-            css: false,
-            resize: true
-        },
-        resetPGOnChangeOf: {
-            // Erase playground before due to change of...
-            code: true,
-            data: false,
-            css: false,
-            resize: true
+  Df = {
+    tabSize: 4,
+    theme: 'cobalt',
+    useWrapMode: false,
+    presetsURI: './presets/',
+    // URI to presets; must end in "/"
+    defaultPreset: 'drt',
+    // Exact
+    presetInHash: true,
+    // Load preset from hash and set hash in usePreset()
+    runOnChange: true,
+    // Execute code during typing (all fields)?
+    runOnChangeOf: {
+      // Execute due to change of...
+      code: true,
+      data: true,
+      css: false,
+      resize: true
+    },
+    resetPGOnChangeOf: {
+      // Erase playground before due to change of...
+      code: true,
+      data: false,
+      css: false,
+      resize: true
+    }
+  };
+
+  function unlessErrorsIn(id, callback, delay) {
+    var el, timer;
+
+    el = D.getElementById(id);
+
+    return function () {
+      W.clearTimeout(timer);
+
+      timer = W.setTimeout(function () {
+        if (!el.querySelector('div_gutter-cell_error')) {
+          callback();
         }
+      }, delay); // DANGER: workers-css.js and workers-javascript.js must have timeouts below this
     };
+  }
 
-    function unlessErrorsIn(id, callback, delay) {
-        var el, timer;
+  function resetPlayground() {
+    //C.debug('Reset Playground');
+    $playground.innerHTML = '';
+  }
 
-        el = D.getElementById(id);
+  function usePreset(presetName) {
+    var path;
 
-        return function () {
-            W.clearTimeout(timer);
-
-            timer = W.setTimeout(function () {
-                if (!el.querySelector('div_gutter-cell_error')) {
-                    callback();
-                }
-            }, delay); // DANGER: workers-css.js and workers-javascript.js must have timeouts below this
-        };
+    if (typeof presetName !== 'string') {
+      presetName = presets.value;
     }
-
-    function resetPlayground() {
-        //C.debug('Reset Playground');
-        $playground.innerHTML = '';
+    if (Df.presetInHash) {
+      location.hash = Util.esc(presetName);
     }
+    path = Df.presetsURI + presetName + '/' + presetName;
 
-    function usePreset(presetName) {
-        var path;
+    resetPlayground();
+    d3.text(path + '.css', function (css) {
+      $editors.css.getSession().setValue(css);
+    });
+    d3.text(path + '.data', function (data) {
+      $editors.data.getSession().setValue(data);
 
-        if (typeof presetName !== 'string') {
-            presetName = presets.value;
-        }
-        if (Df.presetInHash) {
-            location.hash = Util.esc(presetName);
-        }
-        path = Df.presetsURI + presetName + '/' + presetName;
+      d3.text(path + '.js', function (code) {
+        $editors.code.getSession().setValue(code);
+      });
+    });
+  }
 
+  // Load preset names from Df.presetsURI, load the default/hash, and setup load handlers
+
+  function setupPresets() {
+    var defaultName;
+
+    defaultName = (Df.presetInHash && location.hash) ? //
+    Util.unesc(location.hash.slice(1)) : //
+    Df.defaultPreset;
+
+    presets = D.getElementById('presets');
+    presets.addEventListener('change', usePreset, false);
+
+    d3.text(Df.presetsURI, function (html) {
+      var names, i, sel;
+
+      names = html.match(/[^<>]+(?=\/<\/a>)/g);
+
+      for (i = 0; i < names.length; ++i) {
+        sel = (names[i] === defaultName);
+        presets.appendChild(new Option(names[i], names[i], sel, sel));
+      }
+      usePreset(defaultName);
+    });
+  }
+
+  // Command-L on OS X conflicts with focusing address bar
+  // Use Ctrl-L instead (and remove 'centerselection')
+
+  function fixKeyboardShortcuts() {
+    var name, cmd, gtl;
+
+    for (name in $editors) {
+      if ($editors.hasOwnProperty(name)) {
+        cmd = $editors[name].commands;
+        gtl = cmd.commands.gotoline;
+        gtl.bindKey = cmd.commands.centerselection.bindKey;
+        cmd.removeCommand('centerselection');
+        cmd.addCommand(gtl);
+      }
+    }
+  }
+
+  // Manual invocation; intended to be hooked up to a button in the UI
+
+  function runCode() {
+    try {
+      Util.evl($editors.code.getSession().getValue());
+    } catch (err) {
+      C.log('Updating code: ' + err.message);
+    }
+  }
+
+  // Execute the code (maybe); changeSource is either 'data' or 'css' or 'resize'
+
+  function updateCode(changeSource) {
+    //C.debug('Update Code');
+    if (!Df.runOnChange) {
+      return;
+    }
+    if (typeof changeSource !== 'string') {
+      changeSource = 'code';
+    }
+    if (Df.runOnChangeOf[changeSource]) {
+      if (Df.resetPGOnChangeOf[changeSource]) {
         resetPlayground();
-        d3.text(path + '.css', function (css) {
-            $editors.css.getSession().setValue(css);
-        });
-        d3.text(path + '.data', function (data) {
-            $editors.data.getSession().setValue(data);
-
-            d3.text(path + '.js', function (code) {
-                $editors.code.getSession().setValue(code);
-            });
-        });
+      }
+      runCode();
     }
+  }
 
-    // Load preset names from Df.presetsURI, load the default/hash, and setup load handlers
+  function swizzleData() {
+    swizzle.array($data);
+    updateCode('code');
+  }
 
-    function setupPresets() {
-        var defaultName;
+  function resizeWindow() {
+    //C.debug('Resize Window');
+    updateCode('resize');
+  }
 
-        defaultName = (Df.presetInHash && location.hash) ? //
-        Util.unesc(location.hash.slice(1)) : //
-        Df.defaultPreset;
+  function toggleLiveUpdates() {
+    Df.runOnChange = D.getElementById('runcode').checked;
 
-        presets = D.getElementById('presets');
-        presets.addEventListener('change', usePreset, false);
-
-        d3.text(Df.presetsURI, function (html) {
-            var names, i, sel;
-
-            names = html.match(/[^<>]+(?=\/<\/a>)/g);
-
-            for (i = 0; i < names.length; ++i) {
-                sel = (names[i] === defaultName);
-                presets.appendChild(new Option(names[i], names[i], sel, sel));
-            }
-            usePreset(defaultName);
-        });
+    if (Df.runOnChange) {
+      updateCode('code');
     }
+  }
 
-    // Command-L on OS X conflicts with focusing address bar
-    // Use Ctrl-L instead (and remove 'centerselection')
+  function bindUI() {
+    D.getElementById('runcode').addEventListener('change', toggleLiveUpdates, false);
+    D.getElementById('swizzle').addEventListener('click', swizzleData, false);
+    W.addEventListener('resize', Util.runLater(resizeWindow, 250), false);
+  }
 
-    function fixKeyboardShortcuts() {
-        var name, cmd, gtl;
-
-        for (name in $editors) {
-            if ($editors.hasOwnProperty(name)) {
-                cmd = $editors[name].commands;
-                gtl = cmd.commands.gotoline;
-                gtl.bindKey = cmd.commands.centerselection.bindKey;
-                cmd.removeCommand('centerselection');
-                cmd.addCommand(gtl);
-            }
-        }
+  function updateData() {
+    //C.debug('Update Data');
+    try {
+      $data = Util.evl($editors.data.getSession().getValue());
+    } catch (err) {
+      C.log('Updating data: ' + err.message);
     }
+    updateCode('data');
+  }
 
-    // Manual invocation; intended to be hooked up to a button in the UI
-
-    function runCode() {
-        try {
-            Util.evl($editors.code.getSession().getValue());
-        } catch (err) {
-            C.log('Updating code: ' + err.message);
-        }
+  function updateCSS() {
+    //C.debug('Update CSS');
+    try {
+      $css.innerHTML = $editors.css.getSession().getValue();
+    } catch (err) {
+      C.log('Updating CSS: ' + err.message);
     }
+    updateCode('css');
+  }
 
-    // Execute the code (maybe); changeSource is either 'data' or 'css' or 'resize'
+  // Fills out $editors with ACE editors
 
-    function updateCode(changeSource) {
-        //C.debug('Update Code');
-        if (!Df.runOnChange) {
-            return;
-        }
-        if (typeof changeSource !== 'string') {
-            changeSource = 'code';
-        }
-        if (Df.runOnChangeOf[changeSource]) {
-            if (Df.resetPGOnChangeOf[changeSource]) {
-                resetPlayground();
-            }
-            runCode();
-        }
+  function setupEditors() {
+    var jsMode, cssMode, name, ed, session;
+
+    jsMode = require('ace/mode/javascript').Mode;
+    cssMode = require('ace/mode/css').Mode;
+
+    for (name in $editors) {
+      if ($editors.hasOwnProperty(name)) {
+        ed = $editors[name] = ace.edit(name + '-editor');
+        ed.setTheme('ace/theme/' + Df.theme);
+
+        session = ed.getSession();
+        session.setTabSize(Df.tabSize);
+        session.setUseWrapMode(Df.useWrapMode);
+        session.setMode(name === 'css' ? new cssMode() : new jsMode());
+      }
     }
+    $editors.data.getSession().on('change', unlessErrorsIn('data-editor', updateData, 250));
+    $editors.code.getSession().on('change', unlessErrorsIn('code-editor', updateCode, 350));
+    // CSS editor does not accept SVG CSS as valid, so update on every change
+    $editors.css.getSession().on('change', Util.runLater(updateCSS, 350));
+  }
 
-    function swizzleData() {
-        swizzle.array($data);
-        updateCode('code');
-    }
-
-    function resizeWindow() {
-        //C.debug('Resize Window');
-        updateCode('resize');
-    }
-
-    function toggleLiveUpdates() {
-        Df.runOnChange = D.getElementById('runcode').checked;
-
-        if (Df.runOnChange) {
-            updateCode('code');
-        }
-    }
-
-    function bindUI() {
-        D.getElementById('runcode').addEventListener('change', toggleLiveUpdates, false);
-        D.getElementById('swizzle').addEventListener('click', swizzleData, false);
-        W.addEventListener('resize', Util.runLater(resizeWindow, 250), false);
-    }
-
-    function updateData() {
-        //C.debug('Update Data');
-        try {
-            $data = Util.evl($editors.data.getSession().getValue());
-        } catch (err) {
-            C.log('Updating data: ' + err.message);
-        }
-        updateCode('data');
-    }
-
-    function updateCSS() {
-        //C.debug('Update CSS');
-        try {
-            $css.innerHTML = $editors.css.getSession().getValue();
-        } catch (err) {
-            C.log('Updating CSS: ' + err.message);
-        }
-        updateCode('css');
-    }
-
-    // Fills out $editors with ACE editors
-
-    function setupEditors() {
-        var jsMode, cssMode, name, ed, session;
-
-        jsMode = require('ace/mode/javascript').Mode;
-        cssMode = require('ace/mode/css').Mode;
-
-        for (name in $editors) {
-            if ($editors.hasOwnProperty(name)) {
-                ed = $editors[name] = ace.edit(name + '-editor');
-                ed.setTheme('ace/theme/' + Df.theme);
-
-                session = ed.getSession();
-                session.setTabSize(Df.tabSize);
-                session.setUseWrapMode(Df.useWrapMode);
-                session.setMode(name === 'css' ? new cssMode() : new jsMode());
-            }
-        }
-        $editors.data.getSession().on('change', unlessErrorsIn('data-editor', updateData, 250));
-        $editors.code.getSession().on('change', unlessErrorsIn('code-editor', updateCode, 350));
-        // CSS editor does not accept SVG CSS as valid, so update on every change
-        $editors.css.getSession().on('change', Util.runLater(updateCSS, 350));
-    }
-
-    W.addEventListener('load', function () {
-        $playground = D.querySelector('#playground');
-        $css = D.querySelector('#user-css');
-        $editors = {
-            data: null,
-            code: null,
-            css: null
-        };
-        setupEditors();
-        setupPresets();
-        fixKeyboardShortcuts();
-        bindUI();
-    }, false);
+  W.addEventListener('load', function () {
+    $playground = D.querySelector('#playground');
+    $css = D.querySelector('#user-css');
+    $editors = {
+      data: null,
+      code: null,
+      css: null
+    };
+    setupEditors();
+    setupPresets();
+    fixKeyboardShortcuts();
+    bindUI();
+  }, false);
 
 }(window));
 

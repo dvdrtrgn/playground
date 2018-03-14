@@ -1,62 +1,62 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>D3.js Playground</title>
-    <link href="scss/main.css" rel="stylesheet">
-    <script src="/lib/jquery/1.8.2/jquery.js"></script>
-    <script src="/lib/d3/2.10.0/d3.js"></script>
-    <script src="libs/ace.js"></script>
-    <script src="libs/theme-cobalt.js"></script>
-    <script src="libs/mode-javascript.js"></script>
-    <script src="libs/mode-css.js"></script>
-    <script src="scripts/escape.js"></script>
-    <script src="scripts/playground.js"></script>
-    <script src="scripts/swizzle.js"></script>
-    <script src="scripts/util.js"></script>
-    <style id="user-css"></style>
+  <meta charset="utf-8">
+  <title>D3.js Playground</title>
+  <link href="scss/main.css" rel="stylesheet">
+  <script src="/lib/jquery/1.8.2/jquery.js"></script>
+  <script src="/lib/d3/2.10.0/d3.js"></script>
+  <script src="libs/ace.js"></script>
+  <script src="libs/theme-cobalt.js"></script>
+  <script src="libs/mode-javascript.js"></script>
+  <script src="libs/mode-css.js"></script>
+  <script src="scripts/escape.js"></script>
+  <script src="scripts/playground.js"></script>
+  <script src="scripts/swizzle.js"></script>
+  <script src="scripts/util.js"></script>
+  <style id="user-css"></style>
 </head>
 <body>
-    <p id="overview">A tool to explore and learn D3.js.
-        Interactively change your inbound data, CSS and
-        D3.js transformation code and watch the results update in real-time.
-        Copyright © 2012 Gavin Kistner</p>
-    <section id="playground-wrap">
-        <header>
-            <h2>#playground
-                <span>(<a href="http://phrogz.net/d3-playground">help!</a>)</span>
-                <span>(<a href="https://github.com/mbostock/d3/wiki/API-Reference">docs!</a>)</span>
-            </h2>
-            <span class="note">
-                Preset: <select id="presets"></select>
-            </span>
-        </header>
-        <div id="playground"></div>
-    </section>
-    <section id="data">
-        <header>
-            <h2>$data <span>(JS, not JSON)</span></h2><span class="note"><button id="swizzle" title="Change all numbers in data by ±20%, running code again without erasing the playground."><span class="note">swizzle</span></button></span>
-        </header>
-        <div class="editor" id="data-editor"></div>
-    </section>
-    <section id="css">
-        <header>
-            <h2>CSS</h2>
-        </header>
-        <div class="editor" id="css-editor"></div>
-    </section>
-    <section id="code">
-        <header>
-            <h2>d3.js code <span>(available: <a href="http://phrogz.net/fewer-lambdas-in-d3-js">F and I</a>)</span></h2><span class="note"><label title="Uncheck to type a lot of code that might be slow"><input checked id="runcode" type="checkbox"> Update?</label></span>
-        </header>
-        <div class="editor" id="code-editor"></div>
-    </section>
-    <script>
-        var all = $('#data, #css, #code');
+  <p id="overview">A tool to explore and learn D3.js.
+    Interactively change your inbound data, CSS and
+    D3.js transformation code and watch the results update in real-time.
+    Copyright © 2012 Gavin Kistner</p>
+  <section id="playground-wrap">
+    <header>
+      <h2>#playground
+        <span>(<a href="http://phrogz.net/d3-playground">help!</a>)</span>
+        <span>(<a href="https://github.com/mbostock/d3/wiki/API-Reference">docs!</a>)</span>
+      </h2>
+      <span class="note">
+        Preset: <select id="presets"></select>
+      </span>
+    </header>
+    <div id="playground"></div>
+  </section>
+  <section id="data">
+    <header>
+      <h2>$data <span>(JS, not JSON)</span></h2><span class="note"><button id="swizzle" title="Change all numbers in data by ±20%, running code again without erasing the playground."><span class="note">swizzle</span></button></span>
+    </header>
+    <div class="editor" id="data-editor"></div>
+  </section>
+  <section id="css">
+    <header>
+      <h2>CSS</h2>
+    </header>
+    <div class="editor" id="css-editor"></div>
+  </section>
+  <section id="code">
+    <header>
+      <h2>d3.js code <span>(available: <a href="http://phrogz.net/fewer-lambdas-in-d3-js">F and I</a>)</span></h2><span class="note"><label title="Uncheck to type a lot of code that might be slow"><input checked id="runcode" type="checkbox"> Update?</label></span>
+    </header>
+    <div class="editor" id="code-editor"></div>
+  </section>
+  <script>
+    var all = $('#data, #css, #code');
 
-        all.on('dblclick', 'h2', function () {
-            all.hide().fadeIn(9999);
-        });
-    </script>
+    all.on('dblclick', 'h2', function () {
+      all.hide().fadeIn(9999);
+    });
+  </script>
 </body>
 </html>
