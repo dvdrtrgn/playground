@@ -1,8 +1,8 @@
 /*jslint es5:true, white:false */
 /*globals Util, $data, d3, window */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-var C = window.console,
-  D = {
+var C = window.console;
+var D = {
     data: null,
     factor: 1.25,
     margin: 1.5,
@@ -87,14 +87,14 @@ D.svg.attr('transform', 'scale(1.00) translate(' + D.offset + ', 0)');
 function drawAxes() {
   var F = D.ratio,
     U = D.unit;
-    // center
-  D.app([0, - U], [0, U]);
+  // center
+  D.app([0, -U], [0, U]);
   D.app([-U, 0], [U, 0]);
   // bounds
-  D.app([-F * U, - U], [+F * U, - U]);
-  D.app([+F * U, + U]);
-  D.app([-F * U, + U]);
-  D.app([-F * U, - U]);
+  D.app([-F * U, -U], [+F * U, -U]);
+  D.app([+F * U, +U]);
+  D.app([-F * U, +U]);
+  D.app([-F * U, -U]);
 }
 
 drawAxes();

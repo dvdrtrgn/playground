@@ -5,14 +5,14 @@
 // Coffee Flavour Wheel by Jason Davies,
 // http://www.jasondavies.com/coffee-wheel/
 // License: http://www.jasondavies.com/coffee-wheel/LICENSE.txt
-var width = 840,
-  height = width,
-  radius = width / 2,
-  x = d3.scale.linear().range([0, 2 * Math.PI]),
-  y = d3.scale.pow().exponent(1.3).domain([0, 1]).range([0, radius]),
-  padding = 5,
-  duration = 1000,
-  div, vis, partition, arc;
+var width = 840;
+var height = width;
+var radius = width / 2;
+var x = d3.scale.linear().range([0, 2 * Math.PI]);
+var y = d3.scale.pow().exponent(1.3).domain([0, 1]).range([0, radius]);
+var padding = 5;
+var duration = 1000;
+var div, vis, partition, arc;
 
 div = d3.select('#playground');
 
@@ -65,10 +65,11 @@ arc = d3.svg.arc().startAngle(function (d) {
     },
     dy: '.2em',
     transform: function (d) {
-      var multiline = (d.name || '').split(' ').length > 1,
-        angle = x(d.x + d.dx / 2) * 180 / Math.PI - 90,
-        rotate = angle + (multiline ? - .5 : 0);
-      return 'rotate(' + rotate + ')translate(' + (y(d.y) + padding) + ')rotate(' + (angle > 90 ? - 180 : 0) + ')';
+      var multiline = (d.name || '').split(' ').length > 1;
+      var angle = x(d.x + d.dx / 2) * 180 / Math.PI - 90;
+      var rotate = angle + (multiline ? -.5 : 0);
+      var trans = (y(d.y) + padding);
+      return 'rotate(' + rotate + ')translate(' + trans + ')rotate(' + (angle > 90 ? -180 : 0) + ')';
     },
   }).on('click', click);
   textEnter.append('tspan').attr('x', 0).text(function (d) {
@@ -94,9 +95,10 @@ arc = d3.svg.arc().startAngle(function (d) {
     }).attrTween('transform', function (d) {
       var multiline = (d.name || '').split(' ').length > 1;
       return function () {
-        var angle = x(d.x + d.dx / 2) * 180 / Math.PI - 90,
-          rotate = angle + (multiline ? - .5 : 0);
-        return 'rotate(' + rotate + ')translate(' + (y(d.y) + padding) + ')rotate(' + (angle > 90 ? - 180 : 0) + ')';
+        var angle = x(d.x + d.dx / 2) * 180 / Math.PI - 90;
+        var rotate = angle + (multiline ? -.5 : 0);
+        var trans = (y(d.y) + padding);
+        return 'rotate(' + rotate + ')translate(' + trans + ')rotate(' + (angle > 90 ? -180 : 0) + ')';
       };
     }).style('fill-opacity', function (e) {
       return isParentOf(d, e) ? 1 : 1e-6;

@@ -1,3 +1,4 @@
+/*globals $data:true, Util, console, d3 */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 function _init() {
   var w = 1280,

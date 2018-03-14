@@ -117,9 +117,12 @@
 
   update();
 
-  vis.selectAll('circle.control').data(function (d) {
-      return points.slice(0, d);
-    }).enter().append('circle') //
+  vis.selectAll('circle.control')
+    .data(
+      function (d) {
+        return points.slice(0, d);
+      }
+    ).enter().append('circle') //
     .attr('class', 'control') //
     .attr('r', 7) //
     .attr('cx', x) //

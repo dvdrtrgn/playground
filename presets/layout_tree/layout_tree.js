@@ -63,7 +63,7 @@ function _init() {
       return d._children ? 'lightsteelblue' : '#fff';
     });
     nodeEnter.append('svg:text').attr('x', function (d) {
-      return d.children || d._children ? - 10 : 10;
+      return d.children || d._children ? -10 : 10;
     }).attr('dy', '.35em').attr('text-anchor', function (d) {
       return d.children || d._children ? 'end' : 'start';
     }).text(function (d) {
@@ -206,10 +206,10 @@ function _init() {
       groups = [];
 
       // Compute the sum.
-      k = 0,
+      k = 0;
       i = -1;
       while (++i < n) {
-        x = 0,
+        x = 0;
         j = -1;
         while (++j < n) {
           x += matrix[i][j];
@@ -241,10 +241,10 @@ function _init() {
       k = (2 * Math.PI - padding * n) / k;
 
       // Compute the start and end angle for each group and subgroup.
-      x = 0,
+      x = 0;
       i = -1;
       while (++i < n) {
-        x0 = x,
+        x0 = x;
         j = -1;
         while (++j < n) {
           var di = groupIndex[i],
@@ -416,11 +416,12 @@ function _init() {
         x = size[0] / 2;
         y = size[1] / 2;
         i = -1;
-        if (k) while (++i < n) {
-          o = nodes[i];
-          o.x += (x - o.x) * k;
-          o.y += (y - o.y) * k;
-        }
+        if (k)
+          while (++i < n) {
+            o = nodes[i];
+            o.x += (x - o.x) * k;
+            o.y += (y - o.y) * k;
+          }
       }
 
       // compute quadtree center of mass and apply charge forces
@@ -502,7 +503,7 @@ function _init() {
 
     force.charge = function (x) {
       if (!arguments.length) return charge;
-      charge = typeof x === 'function' ? x : + x;
+      charge = typeof x === 'function' ? x : +x;
       return force;
     };
 
@@ -569,7 +570,8 @@ function _init() {
           j = -1,
           m = neighbors.length,
           x;
-        while (++j < m) if (!isNaN(x = neighbors[j][dimension])) return x;
+        while (++j < m)
+          if (!isNaN(x = neighbors[j][dimension])) return x;
         return Math.random() * size;
       }
 
@@ -607,7 +609,8 @@ function _init() {
 
     // use `node.call(force.drag)` to make nodes draggable
     force.drag = function () {
-      if (!drag) drag = d3.behavior.drag().on('dragstart', dragstart).on('drag', d3_layout_forceDrag).on('dragend', d3_layout_forceDragEnd);
+      if (!drag) drag = d3.behavior.drag().on('dragstart', dragstart).on('drag', d3_layout_forceDrag).on(
+        'dragend', d3_layout_forceDragEnd);
 
       this.on('mouseover.force', d3_layout_forceDragOver).on('mouseout.force', d3_layout_forceDragOut).call(drag);
     };
@@ -773,10 +776,10 @@ function _init() {
     }
 
     /**
-         * Specifies the value function *x*, which returns a nonnegative numeric value
-         * for each datum. The default value function is `Number`. The value function
-         * is passed two arguments: the current datum and the current index.
-         */
+     * Specifies the value function *x*, which returns a nonnegative numeric value
+     * for each datum. The default value function is `Number`. The value function
+     * is passed two arguments: the current datum and the current index.
+     */
     pie.value = function (x) {
       if (!arguments.length) return value;
       value = x;
@@ -784,11 +787,11 @@ function _init() {
     };
 
     /**
-         * Specifies a sort comparison operator *x*. The comparator is passed two data
-         * elements from the data array, a and b; it returns a negative value if a is
-         * less than b, a positive value if a is greater than b, and zero if a equals
-         * b.
-         */
+     * Specifies a sort comparison operator *x*. The comparator is passed two data
+     * elements from the data array, a and b; it returns a negative value if a is
+     * less than b, a positive value if a is greater than b, and zero if a equals
+     * b.
+     */
     pie.sort = function (x) {
       if (!arguments.length) return sort;
       sort = x;
@@ -796,11 +799,11 @@ function _init() {
     };
 
     /**
-         * Specifies the overall start angle of the pie chart. Defaults to 0. The
-         * start angle can be specified either as a constant or as a function; in the
-         * case of a function, it is evaluated once per array (as opposed to per
-         * element).
-         */
+     * Specifies the overall start angle of the pie chart. Defaults to 0. The
+     * start angle can be specified either as a constant or as a function; in the
+     * case of a function, it is evaluated once per array (as opposed to per
+     * element).
+     */
     pie.startAngle = function (x) {
       if (!arguments.length) return startAngle;
       startAngle = x;
@@ -808,11 +811,11 @@ function _init() {
     };
 
     /**
-         * Specifies the overall end angle of the pie chart. Defaults to 2π. The
-         * end angle can be specified either as a constant or as a function; in the
-         * case of a function, it is evaluated once per array (as opposed to per
-         * element).
-         */
+     * Specifies the overall end angle of the pie chart. Defaults to 2π. The
+     * end angle can be specified either as a constant or as a function; in the
+     * case of a function, it is evaluated once per array (as opposed to per
+     * element).
+     */
     pie.endAngle = function (x) {
       if (!arguments.length) return endAngle;
       endAngle = x;
@@ -1002,8 +1005,10 @@ function _init() {
         i, j, o, y0 = [];
       for (j = 0; j < m; ++j) {
         for (i = 0, o = 0; i < n; i++) o += data[i][j][1];
-        if (o) for (i = 0; i < n; i++) data[i][j][1] /= o;
-        else for (i = 0; i < n; i++) data[i][j][1] = k;
+        if (o)
+          for (i = 0; i < n; i++) data[i][j][1] /= o;
+        else
+          for (i = 0; i < n; i++) data[i][j][1] = k;
       }
       for (j = 0; j < m; ++j) y0[j] = 0;
       return y0;
@@ -1120,7 +1125,7 @@ function _init() {
     // probability (density). The default value is true.
     histogram.frequency = function (x) {
       if (!arguments.length) return frequency;
-      frequency = !! x;
+      frequency = !!x;
       return histogram;
     };
 
@@ -1661,7 +1666,7 @@ function _init() {
 
       // Compute the layout using Buchheim et al.'s algorithm.
       firstWalk(root);
-      secondWalk(root, - root._tree.prelim);
+      secondWalk(root, -root._tree.prelim);
 
       // Compute the left-most, right-most, and depth-most nodes for extents.
       var left = d3_layout_treeSearch(root, d3_layout_treeLeftmost),
@@ -1958,7 +1963,9 @@ function _init() {
 
       function padFunction(node) {
         var p = x.call(treemap, node, node.depth);
-        return p == null ? d3_layout_treemapPadNull(node) : d3_layout_treemapPad(node, typeof p === 'number' ? [p, p, p, p] : p);
+        return p == null //
+          ? d3_layout_treemapPadNull(node) //
+          : d3_layout_treemapPad(node, typeof p === 'number' ? [p, p, p, p] : p);
       }
 
       function padConstant(node) {
@@ -1966,7 +1973,13 @@ function _init() {
       }
 
       var type;
-      pad = (padding = x) == null ? d3_layout_treemapPadNull : (type = typeof x) === 'function' ? padFunction : type === 'number' ? (x = [x, x, x, x], padConstant) : padConstant;
+      pad = (padding = x) == null //
+        ? d3_layout_treemapPadNull //
+        : ((type = typeof x) === 'function' //
+          ? padFunction //
+          : (type === 'number' //
+            ? (x = [x, x, x, x], padConstant) //
+            : padConstant));
       return treemap;
     };
 

@@ -1,10 +1,9 @@
 /*jslint es5:true, white:false */
 /*globals d3 */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-var gap = 50,
-  height = 333,
-  width = 666,
-  ground, group;
+var height = 333;
+var width = 666;
+var ground, group;
 
 /*
 // density = 10, // number of lines
@@ -73,14 +72,15 @@ function makeData(tot, fac) {
   return arr;
 }
 
-console.debug(makeData());
+window.console.debug(makeData());
 
 function makePlot(x, y) {
   if (!y && typeof x === 'object') {
-    x.each(function(a) {
+    x.each(function (a) {
       makePlot(a[0], a[1]);
     });
   } else {
     line.apply(this, [x, y, x + 1, y + 1]);
   }
 }
+makePlot;
